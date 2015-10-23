@@ -27,7 +27,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.thesett.utils</groupId>
+            <groupId>com.thesett.jenerator.utils</groupId>
             <artifactId>jenerator_util</artifactId>
             <version>1.0.5-SNAPSHOT</version><!--jenerator_utils-BuildVersion-->
         </dependency>

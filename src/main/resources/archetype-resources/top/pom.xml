@@ -33,7 +33,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.thesett.utils</groupId>
+            <groupId>com.thesett.jenerator.utils</groupId>
             <artifactId>jenerator_util_dropwizard_0.7</artifactId>
             <version>1.0.5-SNAPSHOT</version><!--jenerator_utils-BuildVersion-->
         </dependency>
@@ -138,7 +138,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.thesett.utils</groupId>
+            <groupId>com.thesett.jenerator.utils</groupId>
             <artifactId>jenerator_util_testing</artifactId>
             <version>1.0.5-SNAPSHOT</version><!--jenerator_utils-BuildVersion-->
             <scope>test</scope>
