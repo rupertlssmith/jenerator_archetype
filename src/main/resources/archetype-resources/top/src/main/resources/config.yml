@@ -1,0 +1,36 @@
+database:
+  driverClass: org.postgresql.Driver
+  user: ${rootArtifactId}db
+  password: ${rootArtifactId}db
+  url: jdbc:postgresql://localhost/${rootArtifactId}db
+  minSize: 1
+  maxSize: 32
+    
+assets:
+ overrides:
+   /: gui/src/main/webapp
+
+server:
+  type: simple
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: ${httpPort}
+  requestLog:
+    appenders: []    
+    
+logging:
+  level: INFO
+  loggers:
+    io.dropwizard: INFO    
+    org.hibernate.SQL: INFO
+    com.sun.jersey.api.container.filter.LoggingFilter: WARN
+  appenders:
+    - type: console
+
+refdata: refdata
+
+modelResource: ${rootArtifactId}-model.xml
+   
+beanValidationConstraints: constraints.xml

@@ -1,0 +1,280 @@
+/*
+ * HibernateDAOInterface is an implementation of the Generator interface, that creates
+ * interfaces for DAOs based on Hibernate, for all top-level entities in a model.
+ */
+group HibernateDAOInterface : JavaCommon implements Generator;
+
+/*
+ * Creates the opening section of an output file, if one is required.
+ */
+file_open(catalogue, package) ::= <<
+package <package>;
+
+import java.io.InputStream;
+import java.text.ParseException;
+
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
+
+import com.sun.jersey.api.container.filter.LoggingFilter;
+import com.sun.jersey.api.core.ResourceConfig;
+import com.sun.jersey.multipart.impl.MultiPartConfigProvider;
+import com.sun.jersey.multipart.impl.MultiPartReaderServerSide;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.strategicgains.hyperexpress.HyperExpress;
+import com.strategicgains.hyperexpress.domain.hal.HalResourceFactory;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import io.dropwizard.Application;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.migrations.MigrationsBundle;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
+import io.dropwizard.views.ViewBundle;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import com.thesett.util.audited.AuditedMethodDispatchAdapter;
+import com.thesett.util.commands.refdata.RefDataLoadCommand;
+import com.thesett.util.config.hibernate.HibernateXmlBundle;
+import com.thesett.util.config.hyperexpress.HalResourceModule;
+import com.thesett.util.config.model.ModelSetupBundle;
+import com.thesett.util.config.validation.BeanValidationBundle;
+import com.thesett.util.errors.StandardExceptionMapper;
+import com.thesett.util.json.JodaTimeModule;
+import com.thesett.util.services.rest.ReferenceDataResource;
+import com.thesett.util.transaction.UnitOfWorkWithDetachMethodDispatchAdapter;
+
+import ${package}.config.AppConfiguration;    
+import ${package}.services.ServiceFactory;
+import ${package}.services.local.LocalServiceFactory;
+
+import com.thesett.catalogue.model.Catalogue;
+
+>>
+
+/*
+ * Generates the output for a bean in the specified catalogue.
+ */
+for_beans(catalogue, package, decorators) ::= <<
+<decorators:{decorator|<if(decorator.entitySubType)>
+<imports_for_bean(catalogue=catalogue, package=package, decorator=decorator)>
+<endif>}>
+<class_header(catalogue=catalogue, package=package)>
+<decorators:{decorator|<if(decorator.entitySubType)>
+                <add_annotated_daos(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)><endif>}>
+<class_part2(catalogue=catalogue, package=package)>
+<decorators:{decorator|<if(decorator.entitySubType)>
+        <create_daos(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+<endif>}>
+<class_part3(catalogue=catalogue, package=package)>
+<decorators:{decorator|<if(decorator.entitySubType)>
+        <create_resources(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+<endif>}>
+<class_part4(catalogue=catalogue, package=package)>
+<decorators:{decorator|<if(decorator.entitySubType)>
+            <list_resources(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)><endif>}; separator=", ">
+<class_part5(catalogue=catalogue, package=package)>
+<decorators:{decorator|<if(decorator.entitySubType)>
+        <register_resources(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+<endif>}>
+<class_footer(catalogue=catalogue, package=package)>
+>>   
+    
+class_header(catalogue, package) ::= <<
+
+public class Main extends Application\<AppConfiguration> {
+    /** Holds the command for setting up reference data in the database. */
+    private static RefDataLoadCommand\<AppConfiguration> refDataLoadCommand =
+        new RefDataLoadCommand\<AppConfiguration>() {
+            /** {@inheritDoc} */
+            public String getRefdataPackage(AppConfiguration configuration) {
+                return configuration.getRefdata();
+            }
+
+            /** {@inheritDoc} */
+            public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
+                return configuration.getDataSourceFactory();
+            }
+        };
+
+    /** The hibernate resource bundle. */
+    private final HibernateXmlBundle\<AppConfiguration> hibernateXmlBundle =
+        new HibernateXmlBundle\<AppConfiguration>("pp-model.hbm.xml") {
+            /** {@inheritDoc} */
+            public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
+                return configuration.getDataSourceFactory();
+            }
+
+            /** {@inheritDoc} */
+            protected void configure(Configuration configuration) {
+>>
+
+imports_for_bean(catalogue, package, decorator) ::= <<
+import ${package}.dao.<decorator.name; format="ccu">DAO;
+import ${package}.dao.<decorator.name; format="ccu">DAOImpl;
+import ${package}.services.rest.<decorator.name; format="ccu">Resource;    
+>>
+
+/*
+ * Creates the closing section of an output file, if one is required.
+ */
+file_close() ::= <<
+>>
+
+entity_service(catalogue, package, decorator, name) ::= <<
+// Per entity service.
+>>
+
+add_annotated_daos(catalogue, package, decorator, name) ::= <%
+    configuration.addAnnotatedClass(<decorator.name; format="ccu">DAOImpl.class);
+%>
+
+class_part2(catalogue, package) ::= <<
+                extensionPoint.addHibernateClasses(configuration);
+            }
+        };
+
+    /** The bean validation resource bundle. */
+    private final BeanValidationBundle\<AppConfiguration> beanValidationBundle =
+        new BeanValidationBundle\<AppConfiguration>() {
+            /** {@inheritDoc} */
+            public ValidatorFactory getValidatorFactory(AppConfiguration configuration) {
+                String constraintsResource = configuration.getBeanValidationConstraints();
+                InputStream resource = this.getClass().getClassLoader().getResourceAsStream(constraintsResource);
+
+                return Validation.byDefaultProvider().configure().addMapping(resource).buildValidatorFactory();
+            }
+        };
+
+    ModelSetupBundle\<AppConfiguration> modelSetupBundle =
+        new ModelSetupBundle\<AppConfiguration>() {
+            /** {@inheritDoc} */
+            public String getModelResource(AppConfiguration configuration) {
+                return configuration.getModelResource();
+            }
+
+            /** {@inheritDoc} */
+            public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
+                return configuration.getDataSourceFactory();
+            }
+        };
+
+    /** The database migration resource bundle. */
+    private final MigrationsBundle\<AppConfiguration> migrationsBundle =
+        new MigrationsBundle\<AppConfiguration>() {
+            /** {@inheritDoc} */
+            public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
+                return configuration.getDataSourceFactory();
+            }
+        };
+ 
+    /** Create the extension point. */
+    private Example extensionPoint = new Example();
+               
+    /**
+     * Starts the Accounts application running.
+     *
+     * @param args The command line arguments.
+     */
+    public static void main(String[] args) {
+        try {
+            new Main().run(args);
+        } catch (Exception e) {
+            throw new IllegalStateException("Application failed with an exception.", e);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void initialize(Bootstrap\<AppConfiguration> bootstrap) {
+        bootstrap.addBundle(migrationsBundle);
+        bootstrap.addBundle(hibernateXmlBundle);
+        bootstrap.addBundle(modelSetupBundle);
+        bootstrap.addBundle(beanValidationBundle);
+        bootstrap.addBundle(new ViewBundle());
+
+        bootstrap.addCommand(refDataLoadCommand);
+
+        bootstrap.getObjectMapper().registerModule(new JodaTimeModule());
+        bootstrap.getObjectMapper().configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, false);
+        bootstrap.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        bootstrap.getObjectMapper().registerModule(new HalResourceModule());
+
+        extensionPoint.bootstrap(bootstrap);
+    }
+
+    /** {@inheritDoc} */
+    public void run(AppConfiguration ppConfiguration, Environment environment) throws ParseException {
+        HalResourceFactory halFactory = new HalResourceFactory();
+        HyperExpress.registerResourceFactoryStrategy(halFactory, "application/hal+json");
+        
+        environment.jersey().register(new AuditedMethodDispatchAdapter());
+
+        SessionFactory sessionFactory = hibernateXmlBundle.getSessionFactory();
+        environment.jersey().register(new UnitOfWorkWithDetachMethodDispatchAdapter(sessionFactory));
+
+        environment.jersey().property(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS, LoggingFilter.class.getName());
+        environment.jersey().property(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS,
+            LoggingFilter.class.getName());
+
+        environment.jersey().register(new StandardExceptionMapper());
+
+        environment.jersey().register(MultiPartConfigProvider.class);
+        environment.jersey().register(MultiPartReaderServerSide.class);
+
+        // Obtain a reference to the validator.
+        ValidatorFactory validatorFactory = beanValidationBundle.getValidatorFactory(ppConfiguration);
+
+        // Obtain a reference to the data model catalogue.
+        Catalogue catalogue = modelSetupBundle.getModel();
+
+        // Set up the DAOs on top of Hibernate and the validator.
+>>
+
+create_daos(catalogue, package, decorator, name) ::= <%
+        <decorator.name; format="ccu">DAO <decorator.name ; format="cc">DAO = new <decorator.name; format="ccu">DAOImpl(sessionFactory, validatorFactory, catalogue);
+%>
+
+class_part3(catalogue, package) ::= <<
+
+        // Build all of the services on top of the DAOs.
+        ReferenceDataResource referenceDataResource = new ReferenceDataResource(modelSetupBundle.getModel());
+
+>>
+
+create_resources(catalogue, package, decorator, name) ::= <%
+        <decorator.name; format="ccu">Resource <decorator.name ; format="cc">Resource = new <decorator.name; format="ccu">Resource(<decorator.name ; format="cc">DAO);
+%>
+
+class_part4(catalogue, package) ::= <<
+        ServiceFactory serviceFactory =
+            new LocalServiceFactory(sessionFactory,
+>>
+
+list_resources(catalogue, package, decorator, name) ::= <%
+    <decorator.name ; format="cc">Resource
+%>
+
+class_part5(catalogue, package) ::= <<
+        );
+
+        // Register the REST APIs.
+        environment.jersey().register(referenceDataResource);
+>>
+
+register_resources(catalogue, package, decorator, name) ::= <%
+        environment.jersey().register(<decorator.name ; format="cc">Resource);
+%>
+
+class_footer(catalogue, package) ::= <<
+        environment.jersey().setUrlPattern("/*");
+
+        // Run the example to create some example data.
+        extensionPoint.initAdditionalServices(ppConfiguration, environment, sessionFactory,
+            validatorFactory, catalogue, serviceFactory);
+        extensionPoint.example(serviceFactory);
+    }
+}
+>>

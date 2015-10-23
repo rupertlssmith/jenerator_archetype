@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>${groupId}</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <version>${version}</version><!--BuildVersion-->
+
+    <packaging>pom</packaging>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>snapshots</id>
+            <name>snapshots</name>
+            <url>http://repo.digital.gov.uk/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>release</id>
+            <name>release</name>
+            <url>http://repo.digital.gov.uk/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <topdir>${basedir}</topdir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Maven plugin versions. -->
+        <maven.assembly.plugin.version>2.2-beta-5</maven.assembly.plugin.version>
+        <phantomjs-maven-plugin.version>0.4</phantomjs-maven-plugin.version>
+        
+        <!-- Versions. -->
+        <jenerator.utils.version>1.0.5-SNAPSHOT</jenerator.utils.version><!--jenerator_utils-BuildVersion-->
+        
+        <dropwizard.version>0.7.1</dropwizard.version>
+        <h2.version>1.4.180</h2.version>
+        <postgres.version>9.1-901-1.jdbc4</postgres.version>
+        <jquery.version>1.11.1</jquery.version>
+        <jqueryui.version>1.11.0</jqueryui.version>
+        <qunit.version>1.11.0</qunit.version>
+        <jasmine.version>2.0.0</jasmine.version>
+        <jasmine.jquery.version>2.0.3</jasmine.jquery.version>
+        <jasmineplugin.version>2.0-alpha-01</jasmineplugin.version>
+        <qunitplugin.version>2.2.0</qunitplugin.version>
+        <dropwizardassetsbundle.version>0.2.0</dropwizardassetsbundle.version>
+        <sundial.version>1.1.3</sundial.version>
+        <google.collections.version>1.0</google.collections.version>
+        <bootstrap.version>3.2.0</bootstrap.version>
+        <hibernate.version>4.3.5.Final</hibernate.version>
+        <jackson.version>2.3.3</jackson.version>
+        <commons.compress.version>1.8.1</commons.compress.version>
+        <commons.io.version>1.3.2</commons.io.version>
+        <jenerator.version>0.8.20</jenerator.version>
+        <jodatime.version>2.3</jodatime.version>
+        <jadira.version>3.0.0.GA</jadira.version>
+        <force.wsc.version>32.1.0</force.wsc.version>
+        <force.partner.version>32.0.0</force.partner.version>
+        <datatables.version>1.10.2</datatables.version>
+        <datatables.bootstrap.version>2-20120202-2</datatables.bootstrap.version>
+        <select2.version>3.5.1</select2.version>
+        <jmockit.version>1.10</jmockit.version>
+        <jacoco.version>0.7.2.201409121644</jacoco.version>
+        <spin.version>2.0.0</spin.version>
+        <file.upload.version>9.8.0</file.upload.version>
+        
+        <!-- Sonar config. -->
+        <sonar.jdbc.url>jdbc:mysql://sonar.digital.gov.uk/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true</sonar.jdbc.url>
+        <sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>
+        <sonar.jdbc.username>sonar</sonar.jdbc.username>
+        <sonar.jdbc.password>sonar</sonar.jdbc.password>
+        <sonar.host.url>http://sonar.digital.gov.uk</sonar.host.url>
+        <!--<sonar.exclusions>src/generated/**/*.java</sonar.exclusions>-->
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-core</artifactId>
+                <version>${dropwizard.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-hibernate</artifactId>
+                <version>${dropwizard.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-migrations</artifactId>
+                <version>${dropwizard.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-assets</artifactId>
+                <version>${dropwizard.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-lifecycle</artifactId>
+                <version>${dropwizard.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-servlets</artifactId>
+                <version>${dropwizard.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-views-freemarker</artifactId>
+                <version>${dropwizard.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-views-mustache</artifactId>
+                <version>${dropwizard.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-client</artifactId>
+                <version>${dropwizard.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.force.api</groupId>
+                <artifactId>force-wsc</artifactId>
+                <version>${force.wsc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.force.api</groupId>
+                <artifactId>force-partner-api</artifactId>
+                <version>${force.partner.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgres.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jquery</artifactId>
+                <version>${jquery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jquery-ui</artifactId>
+                <version>${jqueryui.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jasmine</artifactId>
+                <version>${jasmine.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>qunit</artifactId>
+                <version>${qunit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xeiam</groupId>
+                <artifactId>sundial</artifactId>
+                <version>${sundial.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>${bootstrap.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.collections</groupId>
+                <artifactId>google-collections</artifactId>
+                <version>${google.collections.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bazaarvoice.dropwizard</groupId>
+                <artifactId>dropwizard-configurable-assets-bundle</artifactId>
+                <version>${dropwizardassetsbundle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-csv</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-joda</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${commons.compress.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons.io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${jodatime.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jadira.usertype</groupId>
+                <artifactId>usertype.core</artifactId>
+                <version>${jadira.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>datatables</artifactId>
+                <version>${datatables.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>datatables-bootstrap</artifactId>
+                <version>${datatables.bootstrap.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>select2</artifactId>
+                <version>${select2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>spin-js</artifactId>
+                <version>${spin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jquery-file-upload</artifactId>
+                <version>${file.upload.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jasmine-jquery</artifactId>
+                <version>${jasmine.jquery.version}</version>
+            </dependency>
+            <!-- Test dependencies. -->
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-testing</artifactId>
+                <version>${dropwizard.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.11</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jmockit</groupId>
+                <artifactId>jmockit</artifactId>
+                <version>${jmockit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-core</artifactId>
+                <version>1.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ninja-squad</groupId>
+                <artifactId>DbSetup</artifactId>
+                <version>1.3.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-dbcp2</artifactId>
+                <version>2.0.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.cj.qunit.mojo</groupId>
+                <artifactId>qunit-maven-plugin</artifactId>
+                <version>${qunitplugin.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.searls</groupId>
+                <artifactId>jasmine-maven-plugin</artifactId>
+                <version>${jasmineplugin.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.klieber</groupId>
+                <artifactId>phantomjs-maven-plugin</artifactId>
+                <version>${phantomjs-maven-plugin.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jacoco</groupId>
+                <artifactId>org.jacoco.agent</artifactId>
+                <classifier>runtime</classifier>
+                <version>${jacoco.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Fix the version of the assembly plugin. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven.assembly.plugin.version}</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+        
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <!-- Build profile to build quickly without running tests. -->
+        <profile>
+            <id>skip</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+
+        <!-- Build profile to ignore test failures. -->
+        <profile>
+            <id>ignore</id>
+            <properties>
+                <maven.test.failure.ignore>true</maven.test.failure.ignore>
+                <maven.test.error.ignore>true</maven.test.error.ignore>
+            </properties>
+        </profile>
+
+        <!-- Create the distribution bundles. -->
+        <profile>
+            <id>bundle</id>
+            <modules>
+                <module>bundle</module>
+            </modules>
+        </profile>
+
+    </profiles>
+
+</project>

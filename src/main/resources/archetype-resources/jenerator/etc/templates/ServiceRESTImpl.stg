@@ -1,0 +1,175 @@
+/*
+ * HibernateDAOInterface is an implementation of the Generator interface, that creates
+ * interfaces for DAOs based on Hibernate, for all top-level entities in a model.
+ */
+group HibernateDAOInterface : JavaCommon implements Generator;
+
+/*
+ * Creates the opening section of an output file, if one is required.
+ */
+file_open(catalogue, package) ::= <<
+file_open
+>>
+
+/*
+ * Generates the output for a bean in the specified catalogue.
+ */
+for_bean(catalogue, package, decorator, fields, extraFields) ::= <<
+<if(decorator.entitySubType)>
+<entity_service(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+<endif>
+>>
+
+/*
+ * Creates the closing section of an output file, if one is required.
+ */
+file_close() ::= <<
+file_close
+>>
+
+/*
+ * Creates a bean class for an entity type, with name/type fields, for a given catalogue model.
+ */
+entity_service(catalogue, package, decorator, name) ::= <<
+<service_interface(catalogue=catalogue, package=package, decorator=decorator, name=name)>
+>>
+
+/*
+ * Creates a service interface for a top-level entity.
+ */
+service_interface(catalogue, package, decorator, name) ::= <<
+package <package>;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
+import java.util.List;
+
+import com.thesett.aima.state.Attribute;
+import com.codahale.metrics.annotation.Timed;
+import com.strategicgains.hyperexpress.HyperExpress;
+import static com.strategicgains.hyperexpress.RelTypes.SELF;
+import com.strategicgains.hyperexpress.domain.Resource;
+
+import com.thesett.util.entity.EntityAlreadyExistsException;
+import com.thesett.util.entity.EntityNotExistsException;
+import com.thesett.util.entity.EntityValidationException;
+import com.thesett.util.entity.EntityDeletionException;
+import com.thesett.util.jersey.UnitOfWorkWithDetach;
+import com.thesett.util.validation.core.JsonSchemaUtil;
+import com.thesett.util.validation.model.JsonSchema;
+
+import <catalogue.modelPackage>.<name; format="ccu">;
+import ${package}.dao.<name; format="ccu">DAO;
+import ${package}.services.<name; format="ccu">Service;
+
+/**
+ * REST API implementation for working with <name; format="ccu">
+ *
+ * @author Generated Code
+ */
+@Path("/api/<name; format="cc">/")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(value = MediaType.APPLICATION_JSON)
+public class <name; format="ccu">Resource implements <name; format="ccu">Service {
+    /** The DAO to use for persisting <name; format="cc">. */
+    private final <name; format="ccu">DAO <name; format="cc">DAO;
+    
+    {
+        HyperExpress.relationships()
+            .forClass(<name; format="ccu">Resource.class)
+            .rel(SELF, "http://localhost:9070/api/<name; format="cc">/hal");
+
+        HyperExpress.relationships()
+            .forClass(<name; format="ccu">Resource.class)
+            .rels("curies", "http://localhost:9070/api/<name; format="cc">/{rel}")
+            .name("<name; format="cc">")
+            .type("application/schema+json")
+            .templated(true);
+
+        HyperExpress.relationships()
+            .forClass(<name; format="ccu">Resource.class)
+            .rel("<name; format="cc">:schema", "http://localhost:9070/api/<name; format="cc">/")
+            .type("application/json");
+    }
+
+    
+    /**
+     * Creates the <name; format="cc"> RESTful service implementation.
+     *
+     * @param <name; format="cc">DAO The DAO to use for persisting <name; format="cc">.
+     */
+    public <name; format="ccu">Resource(<name; format="ccu">DAO <name; format="cc">DAO) {
+        this.<name; format="cc">DAO = <name; format="cc">DAO;
+    }
+
+    @GET
+    @Path("/hal")
+    @Produces("application/hal+json")
+    public Resource root() {
+        return HyperExpress.createResource(this, "application/hal+json");
+    }        
+
+    /** {@inheritDoc} */
+    @GET
+    @Path("/schema")
+    @Produces("application/schema+json")
+    public JsonSchema schema() {
+        return JsonSchemaUtil.getJsonSchema(<name; format="ccu">.class);
+    }
+
+    /** {@inheritDoc} */
+    @GET
+    @UnitOfWorkWithDetach
+    public List\<<name; format="ccu">\> findAll() {
+        return <name; format="cc">DAO.browse(new HashMap\<String, Attribute>(), "<name>");
+    }
+
+    /** {@inheritDoc} */
+    @POST
+    @Path("/example")
+    @UnitOfWorkWithDetach
+    public List\<<name; format="ccu">\> findByExample(<name; format="ccu"> example) {
+        return <name; format="cc">DAO.findByExample(example, "<name>");
+    }
+        
+    /** {@inheritDoc} */
+    @POST
+    @UnitOfWorkWithDetach
+    public <name; format="ccu"> create(<name; format="ccu"> <name; format="cc">) throws EntityAlreadyExistsException, EntityValidationException {
+        return <name; format="cc">DAO.create(<name; format="cc">);
+    }
+
+    /** {@inheritDoc} */
+    @GET
+    @Path("/{<name; format="cc">Id}")
+    @Timed
+    @UnitOfWorkWithDetach
+    public <name; format="ccu"> retrieve(@PathParam("<name; format="cc">Id") Long id) {
+        return <name; format="cc">DAO.retrieve(id);
+    }
+
+    /** {@inheritDoc} */
+    @PUT
+    @UnitOfWorkWithDetach
+    @Path("/{<name; format="cc">Id}")
+    public <name; format="ccu"> update(@PathParam("<name; format="cc">Id") Long id, <name; format="ccu"> <name; format="cc">) throws EntityNotExistsException, EntityValidationException {
+        return <name; format="cc">DAO.update(id, <name; format="cc">);
+    }
+
+    /** {@inheritDoc} */
+    @DELETE
+    @UnitOfWorkWithDetach
+    @Path("/{<name; format="cc">Id}")    
+    public void delete(@PathParam("<name; format="cc">Id") Long id) throws EntityDeletionException {
+        <name; format="cc">DAO.delete(id);
+    }
+}
+>>    

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>${groupId}</groupId>
+        <artifactId>${rootArtifactId}</artifactId>
+        <version>${version}</version><!--BuildVersion-->
+    </parent>
+
+    <groupId>${groupId}</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <version>${version}</version><!--BuildVersion-->
+    <name>${project.artifactId}</name>
+
+    <packaging>pom</packaging>
+
+    <properties>
+        <topdir>${basedir}/..</topdir>
+    </properties>
+
+    <build>
+        <plugins>
+
+            <!-- Generates the source code for the back end from its model. -->
+            <plugin>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.thesett.utils</groupId>
+                        <artifactId>jenerator_custom</artifactId>
+                        <version>${jenerator.utils.version}</version>
+                    </dependency>
+                </dependencies>
+
+                <groupId>com.thesett</groupId>
+                <artifactId>catalogue-maven-plugin</artifactId>
+                <version>${jenerator.version}</version>
+
+                <executions>
+                    <execution>
+                        <id>javasource</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <model>${basedir}/src/main/resources/${rootArtifactId}-model.xml</model>
+                            <templateDir>${basedir}/etc/templates</templateDir>
+
+                            <debugModelFilename>${rootArtifactId}-model.pl</debugModelFilename>
+
+                            <generators>
+                                <generator>
+                                    <config>
+                                        <type>com.thesett.catalogue.generator.JavaBeanGenerator</type>
+                                        <outputPackage>${package}.model</outputPackage>
+                                        <outputDir>${topdir}/service_api/src/generated/java</outputDir>
+                                    </config>
+                                </generator>
+
+                                <generator>
+                                    <config>
+                                        <type>com.thesett.jenerator.ServiceIfaceGenerator</type>
+                                        <outputPackage>${package}.services</outputPackage>
+                                        <modelPackage>${package}.model</modelPackage>
+                                        <outputDir>${topdir}/service_api/src/generated/java</outputDir>
+                                    </config>
+                                </generator>
+
+                                <generator>
+                                    <config>
+                                        <type>com.thesett.jenerator.ServiceRESTGenerator</type>
+                                        <outputPackage>${package}.services.rest</outputPackage>
+                                        <modelPackage>${package}.model</modelPackage>
+                                        <outputDir>${topdir}/service_impl/src/generated/java</outputDir>
+                                    </config>
+                                </generator>
+
+                                <generator>
+                                    <config>
+                                        <type>com.thesett.jenerator.ServiceFactoryGenerator</type>
+                                        <modelPackage>${package}.model</modelPackage>
+                                        <outputPackage>${package}.services</outputPackage>
+                                        <clientPackage>${package}.client</clientPackage>
+                                        <localPackage>${package}.services.local</localPackage>
+                                        <outputDir>${topdir}/service_api/src/generated/java</outputDir>
+                                        <clientOutputDir>${topdir}/client_impl/src/generated/java</clientOutputDir>
+                                        <localOutputDir>${topdir}/service_impl/src/generated/java</localOutputDir>
+                                    </config>
+                                </generator>
+
+                                <generator>
+                                    <config>
+                                        <type>com.thesett.jenerator.HibernateDAOGenerator</type>
+                                        <outputPackage>${package}.dao</outputPackage>
+                                        <modelPackage>${package}.model</modelPackage>
+                                        <outputDir>${topdir}/data_access_hibernate/src/generated/java</outputDir>
+                                        <apiOutputDir>${topdir}/data_access_api/src/generated/java</apiOutputDir>
+                                    </config>
+                                </generator>
+                                
+                                <generator>
+                                    <config>
+                                        <type>com.thesett.catalogue.generator.HibernateGenerator</type>
+                                        <outputPackage>${package}.dao.usertype</outputPackage>
+                                        <outputDir>${topdir}/data_access_hibernate/src/generated/java</outputDir>
+                                        <mappingOutputDir>${topdir}/data_access_hibernate/src/main/resources</mappingOutputDir>
+                                        <mappingFileName>${rootArtifactId}-model.hbm.xml</mappingFileName>
+                                    </config>
+                                </generator>
+
+                                <generator>
+                                    <config>
+                                        <type>com.thesett.catalogue.generator.BeanValidationGenerator</type>
+                                        <outputPackage>${package}.model</outputPackage>
+                                        <outputDir>${topdir}/service_api/src/main/resources</outputDir>
+                                    </config>
+                                </generator>
+
+                                <generator>
+                                    <config>
+                                        <type>com.thesett.jenerator.DropWizardTopGenerator</type>
+                                        <modelPackage>${package}.model</modelPackage>
+                                        <outputPackage>${package}.top</outputPackage>
+                                        <outputDir>${topdir}/top/src/generated/java</outputDir>
+                                    </config>
+                                </generator>
+
+                                <generator>
+                                    <config>
+                                        <type>com.thesett.jenerator.TestStackGenerator</type>
+                                        <modelPackage>${package}.model</modelPackage>
+                                        <outputPackage>${package}.test</outputPackage>
+                                        <unitTestOutputDir>${topdir}/top/src/generated_unittest/java</unitTestOutputDir>
+                                        <integrationTestOutputDir>${topdir}/top/src/generated_integrationtest/java</integrationTestOutputDir>
+                                    </config>
+                                </generator>
+                            </generators>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

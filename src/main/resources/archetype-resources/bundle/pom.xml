@@ -1,0 +1,62 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>${package}</groupId>
+        <artifactId>${artifactId}</artifactId>
+        <version>${version}</version><!--BuildVersion-->
+    </parent>
+
+    <groupId>${package}</groupId>
+    <artifactId>${rootArtifactId}_bundle</artifactId>
+    <version>${version}</version><!--BuildVersion-->
+    <name>${symbol_dollar}{project.artifactId}</name>
+
+    <packaging>pom</packaging>
+
+    <properties>
+        <topdir>${symbol_dollar}{basedir}/..</topdir>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>${package}</groupId>
+            <artifactId>${rootArtifactId}_top</artifactId>
+            <version>${version}</version><!--BuildVersion-->
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Set up the assembly plugin to package up the build. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${symbol_dollar}{maven.assembly.plugin.version}</version>
+                <configuration>
+                    <filters>
+                        <filter>${symbol_dollar}{topdir}/etc/bundle/filter.properties</filter>
+                    </filters>
+                    <descriptors>
+                        <descriptor>${symbol_dollar}{topdir}/etc/bundle/release-bundle.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assembly</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

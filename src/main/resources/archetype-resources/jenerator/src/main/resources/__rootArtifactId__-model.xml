@@ -1,0 +1,21 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<CatalogueDefinition xmlns="http://thesett.com/catalogue-def-0.2"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                     xsi:schemaLocation="http://thesett.com/catalogue-def-0.2">
+    
+    <Package name="${package}.model"/>
+
+    <!-- For providing references to records (also used for simple summary queries) -->
+    <ViewDef name="namedRef">
+        <String name="name"/>
+    </ViewDef>
+    
+    <!--
+        An entity.
+    -->
+    <EntityDef name="someEntity">
+    </EntityDef>
+    
+</CatalogueDefinition>

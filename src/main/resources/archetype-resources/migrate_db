@@ -1,0 +1,5 @@
+#!/bin/bash
+CV=`cat current_version`
+
+java -jar top/target/stars_top-$CV.jar db migrate top/src/main/resources/config.yml
+java -jar top/target/stars_top-$CV.jar refdata top/src/main/resources/config.yml

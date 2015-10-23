@@ -1,0 +1,93 @@
+/*
+ * HibernateDAOInterface is an implementation of the Generator interface, that creates
+ * interfaces for DAOs based on Hibernate, for all top-level entities in a model.
+ */
+import "JavaCommon.stg"
+
+/*
+ * Creates the opening section of an output file, if one is required.
+ */
+file_open(catalogue, package) ::= <<
+file_open
+>>
+
+/*
+ * Generates the output for a bean in the specified catalogue.
+ */
+for_bean(catalogue, package, decorator, fields, extraFields) ::= <<
+<if(decorator.entitySubType)>
+<entity_service(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+<endif>
+>>
+
+/*
+ * Creates the closing section of an output file, if one is required.
+ */
+file_close() ::= <<
+file_close
+>>
+
+/*
+ * Creates a bean class for an entity type, with name/type fields, for a given catalogue model.
+ */
+entity_service(catalogue, package, decorator, name) ::= <<
+<service_interface(catalogue=catalogue, package=package, decorator=decorator, name=name)>
+>>
+
+/*
+ * Creates a service interface for a top-level entity.
+ */
+service_interface(catalogue, package, decorator, name) ::= <<
+package <package>;
+
+import java.util.List;        
+
+import com.thesett.util.entity.EntityAlreadyExistsException;
+import com.thesett.util.entity.EntityNotExistsException;
+import com.thesett.util.entity.EntityValidationException;
+import com.thesett.util.entity.EntityDeletionException;
+import com.thesett.util.entity.CRUD;
+import com.thesett.util.validation.model.JsonSchema;
+    
+import <catalogue.modelPackage>.<name; format="ccu">;
+             
+/**
+ * Service interface for working with <name; format="ccu">
+ *
+ * @author Generated Code
+ */
+public interface <name; format="ccu">Service extends CRUD\<<name; format="ccu">, Long> {
+    /**
+     * Provides a json-schema describing the <name; format="ccu"> data model.
+     *
+     * @return A json-schema describing the <name; format="ccu"> data model.
+     */
+    public JsonSchema schema();
+
+    /**
+     * Lists all values.
+     *
+     * @return A list containing all values.
+     */
+    List\<<name; format="ccu">\> findAll();        
+
+    /**
+     * Lists all values that have fields that match the non-null fields in the example.
+     *
+     * @return A list of all matching values.
+     */
+    public List\<<name; format="ccu">\> findByExample(<name; format="ccu"> example);
+    
+    /** {@inheritDoc} */
+    public <name; format="ccu"> create(<name; format="ccu"> <name; format="cc">) throws EntityAlreadyExistsException, EntityValidationException;
+
+    /** {@inheritDoc} */
+    public <name; format="ccu"> retrieve(Long id);
+
+    /** {@inheritDoc} */
+    public <name; format="ccu"> update(Long id, <name; format="ccu"> <name; format="cc">) throws EntityNotExistsException, EntityValidationException;
+
+    /** {@inheritDoc} */
+    public void delete(Long id) throws EntityDeletionException;
+}
+>>
