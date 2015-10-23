@@ -35,7 +35,7 @@
         </dependency>
 
         <dependency>
-            <groupId>scot.mygov.validation</groupId>
+            <groupId>com.thesett.validation</groupId>
             <artifactId>unified-validation</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
