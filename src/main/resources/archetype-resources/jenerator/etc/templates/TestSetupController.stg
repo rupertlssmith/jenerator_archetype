@@ -162,7 +162,7 @@ class_part2(catalogue, package) ::= <<
         config.setProperty("hibernate.show_sql", "false");
         config.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 
-        config.addResource("pp-model.hbm.xml");    
+        config.addResource("${rootArtifactId}-model.hbm.xml");    
 >>
 
 add_annotated_daos(catalogue, package, decorator, name) ::= <%

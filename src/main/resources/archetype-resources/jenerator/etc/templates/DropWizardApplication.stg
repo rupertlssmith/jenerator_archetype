@@ -101,7 +101,7 @@ public class Main extends Application\<AppConfiguration> {
 
     /** The hibernate resource bundle. */
     private final HibernateXmlBundle\<AppConfiguration> hibernateXmlBundle =
-        new HibernateXmlBundle\<AppConfiguration>("pp-model.hbm.xml") {
+        new HibernateXmlBundle\<AppConfiguration>("${rootArtifactId}-model.hbm.xml") {
             /** {@inheritDoc} */
             public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
                 return configuration.getDataSourceFactory();

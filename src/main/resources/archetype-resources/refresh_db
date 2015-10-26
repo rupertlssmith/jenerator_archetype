@@ -1,5 +1,11 @@
 #!/bin/bash
 
+psql -c "DROP DATABASE IF EXISTS ${rootArtifactId}db"
+psql -c "DROP USER IF EXISTS ${rootArtifactId}db"
+psql -c "CREATE USER ${rootArtifactId}db WITH PASSWORD '${rootArtifactId}db'"
+psql -c "CREATE DATABASE ${rootArtifactId}db"
+psql -c "GRANT ALL PRIVILEGES ON DATABASE ${rootArtifactId}db TO ${rootArtifactId}db"
+
 java -jar top/target/${rootArtifactId}_top-1.0-SNAPSHOT.jar db drop-all --confirm-delete-everything top/src/main/resources/config.yml
 java -jar top/target/${rootArtifactId}_top-1.0-SNAPSHOT.jar db migrate top/src/main/resources/config.yml
 java -jar top/target/${rootArtifactId}_top-1.0-SNAPSHOT.jar refdata top/src/main/resources/config.yml
