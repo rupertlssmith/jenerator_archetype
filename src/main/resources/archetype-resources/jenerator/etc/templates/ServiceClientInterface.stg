@@ -50,9 +50,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.thesett.util.entity.EntityAlreadyExistsException;
-import com.thesett.util.entity.EntityNotExistsException;
-import com.thesett.util.entity.EntityValidationException;
+import com.thesett.util.entity.EntityException;
 import com.thesett.util.validation.model.JsonSchema;
 
 import ${package}.services.<name; format="ccu">Service;
@@ -86,7 +84,7 @@ public interface <name; format="ccu">Client extends <name; format="ccu">Service 
     
     /** {@inheritDoc} */
     @POST
-    public <name; format="ccu"> create(<name; format="ccu"> <name; format="cc">) throws EntityAlreadyExistsException, EntityValidationException;
+    public <name; format="ccu"> create(<name; format="ccu"> <name; format="cc">) throws EntityException;
 
     /** {@inheritDoc} */
     @GET
@@ -96,10 +94,10 @@ public interface <name; format="ccu">Client extends <name; format="ccu">Service 
     /** {@inheritDoc} */
     @PUT
     @Path("/<name; format="cc">Id")
-    public <name; format="ccu"> update(@PathParam("<name; format="cc">Id") Long id, <name; format="ccu"> <name; format="cc">) throws EntityNotExistsException, EntityValidationException;
+    public <name; format="ccu"> update(@PathParam("<name; format="cc">Id") Long id, <name; format="ccu"> <name; format="cc">) throws EntityException;
 
     /** {@inheritDoc} */
     @DELETE
-    public void delete(@PathParam("<name; format="cc">Id") Long id);
+    public void delete(@PathParam("<name; format="cc">Id") Long id) throws EntityException;
 }
 >>

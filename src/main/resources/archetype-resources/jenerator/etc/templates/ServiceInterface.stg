@@ -42,10 +42,7 @@ package <package>;
 
 import java.util.List;        
 
-import com.thesett.util.entity.EntityAlreadyExistsException;
-import com.thesett.util.entity.EntityNotExistsException;
-import com.thesett.util.entity.EntityValidationException;
-import com.thesett.util.entity.EntityDeletionException;
+import com.thesett.util.entity.EntityException;
 import com.thesett.util.entity.CRUD;
 import com.thesett.util.validation.model.JsonSchema;
     
@@ -79,15 +76,15 @@ public interface <name; format="ccu">Service extends CRUD\<<name; format="ccu">,
     public List\<<name; format="ccu">\> findByExample(<name; format="ccu"> example);
     
     /** {@inheritDoc} */
-    public <name; format="ccu"> create(<name; format="ccu"> <name; format="cc">) throws EntityAlreadyExistsException, EntityValidationException;
+    public <name; format="ccu"> create(<name; format="ccu"> <name; format="cc">) throws EntityException;
 
     /** {@inheritDoc} */
     public <name; format="ccu"> retrieve(Long id);
 
     /** {@inheritDoc} */
-    public <name; format="ccu"> update(Long id, <name; format="ccu"> <name; format="cc">) throws EntityNotExistsException, EntityValidationException;
+    public <name; format="ccu"> update(Long id, <name; format="ccu"> <name; format="cc">) throws EntityException;
 
     /** {@inheritDoc} */
-    public void delete(Long id) throws EntityDeletionException;
+    public void delete(Long id) throws EntityException;
 }
 >>
