@@ -133,7 +133,7 @@ public class <name; format="ccu">Resource implements <name; format="ccu">Service
     @GET
     @UnitOfWorkWithDetach
     public List\<<name; format="ccu">\> findAll() {
-        return <name; format="cc">DAO.browse(new HashMap\<String, Attribute>(), ENTITY_NAME);
+        return <name; format="cc">DAO.browse(ENTITY_NAME);
     }
 
     /** {@inheritDoc} */
