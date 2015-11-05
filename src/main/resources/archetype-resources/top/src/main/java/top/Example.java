@@ -52,12 +52,10 @@ public class Example {
      * @param environment      The DropWizard environment.
      * @param sessionFactory   The Hibernate session factory.
      * @param validatorFactory The Hibernate Validator factory.
-     * @param catalogue        The data model catalogue.
      * @param serviceFactory   The service factory.
      */
     public void initAdditionalServices(AppConfiguration appConfiguration, Environment environment,
-        SessionFactory sessionFactory, ValidatorFactory validatorFactory, Catalogue catalogue,
-        ServiceFactory serviceFactory) {
+        SessionFactory sessionFactory, ValidatorFactory validatorFactory, ServiceFactory serviceFactory) {
     }
 
     /**
