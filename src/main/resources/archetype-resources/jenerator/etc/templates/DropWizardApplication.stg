@@ -84,6 +84,9 @@ for_beans(catalogue, package, decorators) ::= <<
 class_header(catalogue, package) ::= <<
 
 public class Main extends Application\<AppConfiguration> {
+    /** Latch used to ensure hyper express is only initialized once. */
+    private static boolean hyperExpressInitialized;
+    
     /** Holds the command for setting up reference data in the database. */
     private static RefDataLoadCommand\<AppConfiguration> refDataLoadCommand =
         new RefDataLoadCommand\<AppConfiguration>() {
@@ -207,8 +210,12 @@ class_part2(catalogue, package) ::= <<
 
     /** {@inheritDoc} */
     public void run(AppConfiguration ppConfiguration, Environment environment) throws ParseException {
-        HalResourceFactory halFactory = new HalResourceFactory();
-        HyperExpress.registerResourceFactoryStrategy(halFactory, "application/hal+json");
+        if (!hyperExpressInitialized) {
+            HalResourceFactory halFactory = new HalResourceFactory();
+            HyperExpress.registerResourceFactoryStrategy(halFactory, "application/hal+json");
+    
+            hyperExpressInitialized = true;
+        }
         
         environment.jersey().register(new AuditedMethodDispatchAdapter());
 
