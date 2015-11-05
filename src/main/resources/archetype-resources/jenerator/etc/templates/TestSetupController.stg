@@ -22,7 +22,6 @@ import static com.ninja_squad.dbsetup.Operations.deleteAllFrom;
 import static com.ninja_squad.dbsetup.Operations.sequenceOf;
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.ninja_squad.dbsetup.operation.Operation;
-import com.thesett.catalogue.model.Catalogue;
 
 import io.dropwizard.db.DataSourceFactory;
 
@@ -39,7 +38,7 @@ import com.thesett.test.controllers.TestSetupController;
 import com.thesett.test.stack.ModelEqualityByValue;
 import com.thesett.util.commands.refdata.RefDataLoadCommand;
 import com.thesett.util.commands.refdata.RefDataLoadException;
-import com.thesett.util.config.model.ModelSetupBundle;
+import com.thesett.util.config.refdata.RefDataSetupBundle;
 import com.thesett.util.config.validation.BeanValidationBundle;
 
 import ${package}.config.AppConfiguration;
@@ -125,9 +124,6 @@ class_part2(catalogue, package) ::= <<
     public static final ModelEqualityByValue MODEL_EQUALITY_BY_VALUE =
         new ModelEqualityByValue(new String[] { "class" });
 
-    /** The data model catalogue. */
-    protected static Catalogue catalogue;
-
     /** Used to track the state of the database undergoing testing. */
     private static DbSetupTracker dbTracker = new DbSetupTracker();
 
@@ -178,15 +174,6 @@ class_part3(catalogue, package) ::= <<
     }
 
     /** {@inheritDoc} */
-    public Catalogue initCatalogue(AppConfiguration configuration) {
-        if (catalogue == null) {
-            catalogue = ModelSetupBundle.getCatalogue(configuration.getModelResource());
-        }
-        
-        return catalogue;
-    }
-
-    /** {@inheritDoc} */
     public void insertReferenceData(AppConfiguration configuration) throws RefDataLoadException
     {
         new RefDataLoadCommand\<AppConfiguration>()
@@ -206,14 +193,13 @@ class_part3(catalogue, package) ::= <<
     }
 
     /** {@inheritDoc} */
-    public void loadReferenceData(AppConfiguration configuration)
+    public void loadReferenceData(AppConfiguration configuration) throws RefDataLoadException
     {
-        new ModelSetupBundle\<AppConfiguration>()
+        new RefDataSetupBundle\<AppConfiguration>()
             {
                 /** {@inheritDoc} */
-                public String getModelResource(AppConfiguration configuration)
-                {
-                    return configuration.getModelResource();
+                public String getRefdataPackage(AppConfiguration configuration) {
+                    return configuration.getRefdata();
                 }
 
                 /** {@inheritDoc} */
@@ -221,7 +207,7 @@ class_part3(catalogue, package) ::= <<
                 {
                     return configuration.getDataSourceFactory();
                 }
-            }.run(configuration, null);
+            }.run(configuration, null);    
     }
 
     /** {@inheritDoc} */
