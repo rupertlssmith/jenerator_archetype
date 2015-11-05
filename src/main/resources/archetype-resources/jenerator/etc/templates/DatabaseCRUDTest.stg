@@ -59,13 +59,13 @@ public class <name; format="ccu">DatabaseCRUDTest extends DatabaseCRUDTestBase\<
     /** {@inheritDoc} */
     protected CRUD\<<name; format="ccu">, Long> getDao()
     {
-        return new <name; format="ccu">DAOImpl(sessionFactory, validatorFactory, catalogue);
+        return new <name; format="ccu">DAOImpl(sessionFactory, validatorFactory);
     }
 
     /** {@inheritDoc} */
     protected <name; format="ccu">DAO getTransactionalDAO()
     {
-        <name; format="ccu">DAO <name; format="cc">DAO = new <name; format="ccu">DAOImpl(sessionFactory, validatorFactory, catalogue);
+        <name; format="ccu">DAO <name; format="cc">DAO = new <name; format="ccu">DAOImpl(sessionFactory, validatorFactory);
 
         return HibernateTransactionalProxy.proxy(<name; format="cc">DAO, <name; format="ccu">DAO.class, sessionFactory);
     }

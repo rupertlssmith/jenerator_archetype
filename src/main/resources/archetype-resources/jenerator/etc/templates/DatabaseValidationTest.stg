@@ -66,7 +66,7 @@ public class <name; format="ccu">DatabaseValidationTest extends DatabaseValidati
     /** {@inheritDoc} */
     protected CRUD\<<name; format="ccu">, Long> getDao()
     {
-        return new <name; format="ccu">DAOImpl(sessionFactory, validatorFactory, catalogue);
+        return new <name; format="ccu">DAOImpl(sessionFactory, validatorFactory);
     }
 }
 >>

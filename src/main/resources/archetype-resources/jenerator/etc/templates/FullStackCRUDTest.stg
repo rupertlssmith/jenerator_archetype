@@ -60,7 +60,7 @@ public class <name; format="ccu">FullStackCRUDTest extends FullStackCRUDTestBase
     /** {@inheritDoc} */
     protected CRUD\<<name; format="ccu">, Long> getServiceLayer()
     {
-        <name; format="ccu">DAOImpl <name; format="cc">DAO = new <name; format="ccu">DAOImpl(sessionFactory, validatorFactory, catalogue);
+        <name; format="ccu">DAOImpl <name; format="cc">DAO = new <name; format="ccu">DAOImpl(sessionFactory, validatorFactory);
 
         <name; format="ccu">Resource <name; format="cc">Resource = new <name; format="ccu">Resource(<name; format="cc">DAO);
 
