@@ -44,10 +44,9 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.NamedQueries;
 import javax.validation.ValidatorFactory;
 
-import com.thesett.catalogue.model.Catalogue;        
 import org.hibernate.SessionFactory;
 
-import com.thesett.util.dao.HibernateModelAwareDAO;
+import com.thesett.util.dao.HibernateBaseDAO;
 import <catalogue.modelPackage>.<name; format="ccu">;
          
 /**
@@ -58,16 +57,15 @@ import <catalogue.modelPackage>.<name; format="ccu">;
  */
 @MappedSuperclass
 @NamedQueries({})
-public class <name; format="ccu">DAOImpl extends HibernateModelAwareDAO\<<name; format="ccu">, Long> implements <name; format="ccu">DAO {
+public class <name; format="ccu">DAOImpl extends HibernateBaseDAO\<<name; format="ccu">, Long> implements <name; format="ccu">DAO {
     /**
      * Creates the DAO on the provided Hibernate session factory.
      *
      * @param sessionFactory   The hibernate session factory to use.
      * @param validatorFactory The bean validator factory to use to validate all data prior to insertion.
-     * @param catalogue        The data model catalogue.
      */
-    public <name; format="ccu">DAOImpl(SessionFactory sessionFactory, ValidatorFactory validatorFactory, Catalogue catalogue) {
-        super(sessionFactory, validatorFactory, catalogue);
+    public <name; format="ccu">DAOImpl(SessionFactory sessionFactory, ValidatorFactory validatorFactory) {
+        super(sessionFactory, validatorFactory);
     }
 }
 >>

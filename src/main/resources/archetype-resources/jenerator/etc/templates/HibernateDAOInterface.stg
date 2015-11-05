@@ -40,7 +40,7 @@ entity_dao(catalogue, package, decorator, name) ::= <<
 dao_interface(catalogue, package, decorator, name) ::= <<
 package <package>;
         
-import com.thesett.util.dao.ModelAwareDAO;
+import com.thesett.util.dao.BaseDAO;
 import <catalogue.modelPackage>.<name; format="ccu">;
          
 /**
@@ -48,6 +48,6 @@ import <catalogue.modelPackage>.<name; format="ccu">;
  *
  * @author Generated Code
  */
-public interface <name; format="ccu">DAO extends ModelAwareDAO\<<name; format="ccu">, Long> {
+public interface <name; format="ccu">DAO extends BaseDAO\<<name; format="ccu">, Long> {
 }
 >>

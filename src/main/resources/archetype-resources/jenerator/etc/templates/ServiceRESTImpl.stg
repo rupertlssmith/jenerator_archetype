@@ -49,10 +49,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.HashMap;
 import java.util.List;
 
-import com.thesett.aima.state.Attribute;
 import com.codahale.metrics.annotation.Timed;
 import com.strategicgains.hyperexpress.HyperExpress;
 import static com.strategicgains.hyperexpress.RelTypes.SELF;

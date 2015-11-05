@@ -39,7 +39,7 @@ import com.thesett.util.audited.AuditedMethodDispatchAdapter;
 import com.thesett.util.commands.refdata.RefDataLoadCommand;
 import com.thesett.util.config.hibernate.HibernateXmlBundle;
 import com.thesett.util.config.hyperexpress.HalResourceModule;
-import com.thesett.util.config.model.ModelSetupBundle;
+import com.thesett.util.config.refdata.RefDataSetupBundle;
 import com.thesett.util.config.validation.BeanValidationBundle;
 import com.thesett.util.errors.StandardExceptionMapper;
 import com.thesett.util.json.JodaTimeModule;
@@ -50,7 +50,6 @@ import ${package}.config.AppConfiguration;
 import ${package}.services.ServiceFactory;
 import ${package}.services.local.LocalServiceFactory;
 
-import com.thesett.catalogue.model.Catalogue;
 
 >>
 
@@ -148,11 +147,12 @@ class_part2(catalogue, package) ::= <<
             }
         };
 
-    ModelSetupBundle\<AppConfiguration> modelSetupBundle =
-        new ModelSetupBundle\<AppConfiguration>() {
+    /** The reference data initialization bundle. */
+    RefDataSetupBundle\<AppConfiguration> refDataSetupBundle =
+        new RefDataSetupBundle\<AppConfiguration>() {
             /** {@inheritDoc} */
-            public String getModelResource(AppConfiguration configuration) {
-                return configuration.getModelResource();
+            public String getRefdataPackage(AppConfiguration configuration) {
+                return configuration.getRefdata();
             }
 
             /** {@inheritDoc} */
@@ -190,7 +190,7 @@ class_part2(catalogue, package) ::= <<
     public void initialize(Bootstrap\<AppConfiguration> bootstrap) {
         bootstrap.addBundle(migrationsBundle);
         bootstrap.addBundle(hibernateXmlBundle);
-        bootstrap.addBundle(modelSetupBundle);
+        bootstrap.addBundle(refDataSetupBundle);
         bootstrap.addBundle(beanValidationBundle);
         bootstrap.addBundle(new ViewBundle());
 
@@ -227,20 +227,17 @@ class_part2(catalogue, package) ::= <<
         // Obtain a reference to the validator.
         ValidatorFactory validatorFactory = beanValidationBundle.getValidatorFactory(ppConfiguration);
 
-        // Obtain a reference to the data model catalogue.
-        Catalogue catalogue = modelSetupBundle.getModel();
-
         // Set up the DAOs on top of Hibernate and the validator.
 >>
 
 create_daos(catalogue, package, decorator, name) ::= <%
-        <decorator.name; format="ccu">DAO <decorator.name ; format="cc">DAO = new <decorator.name; format="ccu">DAOImpl(sessionFactory, validatorFactory, catalogue);
+        <decorator.name; format="ccu">DAO <decorator.name ; format="cc">DAO = new <decorator.name; format="ccu">DAOImpl(sessionFactory, validatorFactory);
 %>
 
 class_part3(catalogue, package) ::= <<
 
         // Build all of the services on top of the DAOs.
-        ReferenceDataResource referenceDataResource = new ReferenceDataResource(modelSetupBundle.getModel());
+        ReferenceDataResource referenceDataResource = new ReferenceDataResource(refDataSetupBundle.getRefdataTypes());
 
 >>
 
@@ -273,7 +270,7 @@ class_footer(catalogue, package) ::= <<
 
         // Run the example to create some example data.
         extensionPoint.initAdditionalServices(ppConfiguration, environment, sessionFactory,
-            validatorFactory, catalogue, serviceFactory);
+            validatorFactory, serviceFactory);
         extensionPoint.example(serviceFactory);
     }
 }

@@ -263,7 +263,7 @@ class_part3(catalogue, package) ::= <<
 >>
 
 create_dao(catalogue, package, decorator) ::= <<
-<decorator.name; format="ccu">DAO <decorator.name; format="cc">DAO = new <decorator.name; format="ccu">DAOImpl(sessionFactory, validatorFactory, catalogue);
+<decorator.name; format="ccu">DAO <decorator.name; format="cc">DAO = new <decorator.name; format="ccu">DAOImpl(sessionFactory, validatorFactory);
 >>
 
 add_dao_to_factory(catalogue, package, decorator) ::= <<
