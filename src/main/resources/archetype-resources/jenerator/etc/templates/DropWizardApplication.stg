@@ -41,9 +41,9 @@ import com.thesett.util.errors.StandardExceptionMapper;
 import com.thesett.util.json.JodaTimeModule;
 import com.thesett.util.services.rest.ReferenceDataResource;
 
-import scot.mygov.pp.config.AppConfiguration;    
-import scot.mygov.pp.services.ServiceFactory;
-import scot.mygov.pp.services.local.LocalServiceFactory;
+import ${package}.config.AppConfiguration;    
+import ${package}.services.ServiceFactory;
+import ${package}.services.local.LocalServiceFactory;
 
 >>
 
