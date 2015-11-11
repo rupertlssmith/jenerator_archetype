@@ -8,9 +8,7 @@
         <version>${version}</version><!--BuildVersion-->
     </parent>
 
-    <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
-    <version>${version}</version><!--BuildVersion-->
     <name>${project.artifactId}</name>
 
     <packaging>jar</packaging>
@@ -21,15 +19,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>${groupId}</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>${rootArtifactId}_service_api</artifactId>
-            <version>${version}</version><!--BuildVersion-->
+            <version>${project.version}</version><!--BuildVersion-->
         </dependency>
 
         <dependency>
             <groupId>com.thesett.jenerator.utils</groupId>
             <artifactId>jenerator_util</artifactId>
-            <version>1.0.5-SNAPSHOT</version><!--jenerator_utils-BuildVersion-->
         </dependency>
 
     </dependencies>

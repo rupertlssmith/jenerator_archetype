@@ -16,10 +16,7 @@ import java.text.ParseException;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 
-import com.sun.jersey.api.container.filter.LoggingFilter;
-import com.sun.jersey.api.core.ResourceConfig;
-import com.sun.jersey.multipart.impl.MultiPartConfigProvider;
-import com.sun.jersey.multipart.impl.MultiPartReaderServerSide;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;    
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.strategicgains.hyperexpress.HyperExpress;
 import com.strategicgains.hyperexpress.domain.hal.HalResourceFactory;
@@ -35,7 +32,6 @@ import io.dropwizard.views.ViewBundle;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import com.thesett.util.audited.AuditedMethodDispatchAdapter;
 import com.thesett.util.commands.refdata.RefDataLoadCommand;
 import com.thesett.util.config.hibernate.HibernateXmlBundle;
 import com.thesett.util.config.hyperexpress.HalResourceModule;
@@ -44,12 +40,10 @@ import com.thesett.util.config.validation.BeanValidationBundle;
 import com.thesett.util.errors.StandardExceptionMapper;
 import com.thesett.util.json.JodaTimeModule;
 import com.thesett.util.services.rest.ReferenceDataResource;
-import com.thesett.util.transaction.UnitOfWorkWithDetachMethodDispatchAdapter;
 
-import ${package}.config.AppConfiguration;    
-import ${package}.services.ServiceFactory;
-import ${package}.services.local.LocalServiceFactory;
-
+import scot.mygov.pp.config.AppConfiguration;    
+import scot.mygov.pp.services.ServiceFactory;
+import scot.mygov.pp.services.local.LocalServiceFactory;
 
 >>
 
@@ -217,19 +211,10 @@ class_part2(catalogue, package) ::= <<
             hyperExpressInitialized = true;
         }
         
-        environment.jersey().register(new AuditedMethodDispatchAdapter());
-
         SessionFactory sessionFactory = hibernateXmlBundle.getSessionFactory();
-        environment.jersey().register(new UnitOfWorkWithDetachMethodDispatchAdapter(sessionFactory));
-
-        environment.jersey().property(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS, LoggingFilter.class.getName());
-        environment.jersey().property(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS,
-            LoggingFilter.class.getName());
 
         environment.jersey().register(new StandardExceptionMapper());
-
-        environment.jersey().register(MultiPartConfigProvider.class);
-        environment.jersey().register(MultiPartReaderServerSide.class);
+        environment.jersey().register(MultiPartFeature.class);
 
         // Obtain a reference to the validator.
         ValidatorFactory validatorFactory = beanValidationBundle.getValidatorFactory(ppConfiguration);

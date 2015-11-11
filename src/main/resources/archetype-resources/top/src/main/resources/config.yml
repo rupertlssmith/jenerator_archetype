@@ -4,11 +4,6 @@ database:
   password: ${rootArtifactId}db
   url: jdbc:postgresql://localhost/${rootArtifactId}db
   minSize: 1
-  maxSize: 32
-    
-assets:
- overrides:
-   /: gui/src/main/webapp
 
 server:
   type: simple
@@ -19,7 +14,11 @@ server:
     port: ${httpPort}
   requestLog:
     appenders: []    
-    
+
+assets:
+ overrides:
+   /assets: dashboard_ui/src/main/webapp/assets/
+        
 logging:
   level: INFO
   loggers:

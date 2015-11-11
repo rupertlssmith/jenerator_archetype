@@ -8,9 +8,7 @@
         <version>${version}</version><!--BuildVersion-->
     </parent>
 
-    <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
-    <version>${version}</version><!--BuildVersion-->
     <name>${project.artifactId}</name>
 
     <packaging>jar</packaging>
@@ -22,47 +20,36 @@
     <dependencies>
         <!-- This ensures code gen happens first. -->
         <dependency>
-            <groupId>${groupId}</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>${rootArtifactId}_jenerator</artifactId>
-            <version>${version}</version><!--BuildVersion-->
+            <version>${project.version}</version><!--BuildVersion-->
             <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>com.thesett.jenerator.utils</groupId>
             <artifactId>jenerator_util_api</artifactId>
-            <version>1.0.5-SNAPSHOT</version><!--jenerator_utils-BuildVersion-->
         </dependency>
 
         <dependency>
             <groupId>com.thesett.validation</groupId>
             <artifactId>unified-validation</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.dropwizard</groupId>
-            <artifactId>dropwizard-jersey</artifactId>
-            <version>${dropwizard.version}</version>
         </dependency>
 
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
-            <version>2.0.1</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.thesett</groupId>
             <artifactId>power_model</artifactId>
-            <version>${jenerator.version}</version>
         </dependency>
 
         <dependency>

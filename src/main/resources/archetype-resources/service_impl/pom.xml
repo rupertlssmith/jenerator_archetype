@@ -8,9 +8,7 @@
         <version>${version}</version><!--BuildVersion-->
     </parent>
 
-    <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
-    <version>${version}</version><!--BuildVersion-->
     <name>${project.artifactId}</name>
 
     <packaging>jar</packaging>
@@ -21,27 +19,25 @@
 
     <dependencies>
         <dependency>
-            <groupId>${groupId}</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>${rootArtifactId}_service_api</artifactId>
-            <version>${version}</version><!--BuildVersion-->
+            <version>${project.version}</version><!--BuildVersion-->
         </dependency>
 
         <dependency>
-            <groupId>${groupId}</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>${rootArtifactId}_data_access_api</artifactId>
-            <version>${version}</version><!--BuildVersion-->
+            <version>${project.version}</version><!--BuildVersion-->
         </dependency>
 
         <dependency>
             <groupId>com.thesett.jenerator.utils</groupId>
             <artifactId>jenerator_util</artifactId>
-            <version>1.0.5-SNAPSHOT</version><!--jenerator_utils-BuildVersion-->
         </dependency>
-
+        
         <dependency>
             <groupId>com.strategicgains</groupId>
             <artifactId>HyperExpress-HAL</artifactId>
-            <version>2.3</version>
         </dependency>        
 
         <dependency>
@@ -80,11 +76,10 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sun.jersey.contribs</groupId>
-            <artifactId>jersey-multipart</artifactId>
-            <version>1.18.1</version>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
         </dependency>
-
+        
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-client</artifactId>
@@ -98,11 +93,6 @@
         <dependency>
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.bazaarvoice.dropwizard</groupId>
-            <artifactId>dropwizard-configurable-assets-bundle</artifactId>
         </dependency>
 
         <!-- Test dependencies. -->
@@ -124,17 +114,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.ninja-squad</groupId>
-            <artifactId>DbSetup</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-dbcp2</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>

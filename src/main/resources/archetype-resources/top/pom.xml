@@ -8,9 +8,7 @@
         <version>${version}</version><!--BuildVersion-->
     </parent>
 
-    <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
-    <version>${version}</version><!--BuildVersion-->
     <name>${project.artifactId}</name>
 
     <packaging>jar</packaging>
@@ -21,21 +19,25 @@
 
     <dependencies>
         <dependency>
-            <groupId>${groupId}</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>${rootArtifactId}_service_impl</artifactId>
-            <version>${version}</version><!--BuildVersion-->
+            <version>${project.version}</version><!--BuildVersion-->
         </dependency>
 
         <dependency>
-            <groupId>${groupId}</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>${rootArtifactId}_data_access_hibernate</artifactId>
-            <version>${version}</version><!--BuildVersion-->
+            <version>${project.version}</version><!--BuildVersion-->
+        </dependency>
+        
+        <dependency>
+            <groupId>com.thesett.jenerator.utils</groupId>
+            <artifactId>jenerator_util_dropwizard_0.9</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.thesett.jenerator.utils</groupId>
-            <artifactId>jenerator_util_dropwizard_0.7</artifactId>
-            <version>1.0.5-SNAPSHOT</version><!--jenerator_utils-BuildVersion-->
+            <artifactId>jenerator_util_servlet</artifactId>
         </dependency>
 
         <dependency>
@@ -97,17 +99,12 @@
             <groupId>com.bazaarvoice.dropwizard</groupId>
             <artifactId>dropwizard-configurable-assets-bundle</artifactId>
         </dependency>
-
+        
         <dependency>
             <groupId>com.google.collections</groupId>
             <artifactId>google-collections</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-dbcp2</artifactId>
-        </dependency>
-
+        
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-csv</artifactId>
@@ -120,16 +117,26 @@
 
         <dependency>
             <groupId>com.thesett</groupId>
-            <artifactId>catalogue-model-processor</artifactId>
-            <version>${jenerator.version}</version>
+            <artifactId>power_model_validation</artifactId>
         </dependency>
 
+        <!-- To replace the excluded 2.4.0-b31 version with malformed pom. -->
         <dependency>
-            <groupId>com.thesett</groupId>
-            <artifactId>power_model_validation</artifactId>
-            <version>${jenerator.version}</version>
+            <groupId>org.glassfish.hk2</groupId>
+            <artifactId>hk2-api</artifactId>
+            <version>2.4.0-b33</version>
         </dependency>
-        
+        <dependency>
+            <groupId>org.glassfish.hk2.external</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>2.4.0-b33</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.hk2</groupId>
+            <artifactId>hk2-locator</artifactId>
+            <version>2.4.0-b33</version>
+        </dependency>
+
         <!-- Test dependencies. -->
         <dependency>
             <groupId>junit</groupId>
@@ -140,7 +147,6 @@
         <dependency>
             <groupId>com.thesett.jenerator.utils</groupId>
             <artifactId>jenerator_util_testing</artifactId>
-            <version>1.0.5-SNAPSHOT</version><!--jenerator_utils-BuildVersion-->
             <scope>test</scope>
             <classifier>tests</classifier>
         </dependency>
@@ -169,12 +175,6 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>${topdir}/jenerator/src/main/resources</directory>
-                <includes>
-                    <include>${rootArtifactId}-model.xml</include>
-                </includes>
             </resource>
         </resources>
 
@@ -283,6 +283,11 @@
                                 <groupId>log4j</groupId>
                                 <artifactId>log4j</artifactId>
                                 <version>1.2.14</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.slf4j</groupId>
+                                <artifactId>slf4j-log4j12</artifactId>
+                                <version>1.5.2</version>
                             </dependency>
                         </dependencies>
                     </plugin>
@@ -442,6 +447,8 @@
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
+                    <!-- Needed to get integration test coverage into sonar, but will require postgres in the build environment, as H2 or HSQL do not offer the same features as Postgres. -->
+                    <!--
                     <plugin>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>2.8</version>
@@ -461,7 +468,8 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>
+                        </plugin>
+                        -->
                 </plugins>
             </build>
           

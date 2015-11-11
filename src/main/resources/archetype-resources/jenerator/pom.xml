@@ -8,9 +8,7 @@
         <version>${version}</version><!--BuildVersion-->
     </parent>
 
-    <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
-    <version>${version}</version><!--BuildVersion-->
     <name>${project.artifactId}</name>
 
     <packaging>pom</packaging>
