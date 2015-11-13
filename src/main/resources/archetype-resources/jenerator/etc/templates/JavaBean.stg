@@ -347,7 +347,7 @@ public <name; format="ccu">() {
 }
 
 /** The constructor to build the enumeration from a Ref. */
-public <name; format="ccu">(NamedRefImpl ref) {
+public <name; format="ccu">(RefDataItem ref) {
     long id = ref.getId();
     
     if (id != -1) {
@@ -395,8 +395,8 @@ public <name; format="ccu">(EnumeratedStringAttribute <name; format="cc">) {
  */
 @JsonValue
 @XmlValue
-public NamedRefImpl getAsJson() {
-    NamedRefImpl ref = new NamedRefImpl();
+public RefDataItem getAsJson() {
+    RefDataItem ref = new RefDataItem();
     ref.withName(<name; format="cc">.getStringValue()).setId(<name; format="cc">.getId());
     return ref;
 }
@@ -530,6 +530,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import com.thesett.util.model.RefDataItem;
 import com.thesett.util.parsing.TryParseLong;
 
 import com.thesett.aima.attribute.impl.EnumeratedStringAttribute;
@@ -693,10 +694,6 @@ public class <name; format="ccu"> <if(baseClass)>extends <baseClass><endif> impl
      <endif>
     <endif>
     <endif>    
-    /** Pretty printing for debugging purposes. */
-    public String toString() {
-        return "<name; format="ccu">: [ <if(id_fields)>id = " + id<else>"<endif><if(decorator.naturalKeyFieldTypes)> + <endif><decorator.naturalKeyFieldTypes.keys:{it|", <it; format="cc"> = " + <it; format="cc">}; separator=" + "> + " ]";
-    }
 }
 >>
 

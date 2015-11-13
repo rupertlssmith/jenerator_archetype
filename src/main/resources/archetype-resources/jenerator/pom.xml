@@ -53,6 +53,7 @@
                                         <type>com.thesett.catalogue.generator.JavaBeanGenerator</type>
                                         <outputPackage>${package}.model</outputPackage>
                                         <outputDir>${topdir}/service_api/src/generated/java</outputDir>
+                                        <viewImplementations>false</viewImplementations>
                                     </config>
                                 </generator>
 
