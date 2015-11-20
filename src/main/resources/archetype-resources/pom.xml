@@ -14,21 +14,6 @@
 
     <packaging>pom</packaging>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>snapshots</id>
-            <name>snapshots</name>
-            <url>http://repo.digital.gov.uk/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>release</id>
-            <name>release</name>
-            <url>http://repo.digital.gov.uk/nexus/content/repositories/releases/</url>
-        </repository>
-    </distributionManagement>
-
     <properties>
         <topdir>${basedir}</topdir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

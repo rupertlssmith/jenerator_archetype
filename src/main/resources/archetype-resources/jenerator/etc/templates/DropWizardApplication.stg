@@ -33,6 +33,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.thesett.util.commands.refdata.RefDataLoadCommand;
+import com.thesett.util.commands.dropviews.DropViewsCommand;
 import com.thesett.util.config.hibernate.HibernateXmlBundle;
 import com.thesett.util.config.hyperexpress.HalResourceModule;
 import com.thesett.util.config.refdata.RefDataSetupBundle;
@@ -94,7 +95,16 @@ public class Main extends Application\<AppConfiguration> {
                 return configuration.getDataSourceFactory();
             }
         };
-
+    
+    /** Holds the command for clearing all database views - to compensate for bug in Liquibase. */
+    private static DropViewsCommand\<AppConfiguration> dropViewsCommand =
+            new DropViewsCommand\<AppConfiguration>() {
+                /** {@inheritDoc} */
+                public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
+                    return configuration.getDataSourceFactory();
+                }
+            };
+    
     /** The hibernate resource bundle. */
     private final HibernateXmlBundle\<AppConfiguration> hibernateXmlBundle =
         new HibernateXmlBundle\<AppConfiguration>("${rootArtifactId}-model.hbm.xml") {
@@ -192,6 +202,7 @@ class_part2(catalogue, package) ::= <<
         bootstrap.addBundle(new ViewBundle());
 
         bootstrap.addCommand(refDataLoadCommand);
+        bootstrap.addCommand(dropViewsCommand);
 
         bootstrap.getObjectMapper().registerModule(new JodaTimeModule());
         bootstrap.getObjectMapper().configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, false);

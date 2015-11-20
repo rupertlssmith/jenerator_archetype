@@ -56,7 +56,11 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
         </dependency>
-
+        
+        <dependency>
+            <groupId>com.strategicgains</groupId>
+            <artifactId>HyperExpress-HAL</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

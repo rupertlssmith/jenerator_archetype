@@ -37,6 +37,7 @@ entity_service(catalogue, package, decorator, name) ::= <<
 service_interface(catalogue, package, decorator, name) ::= <<
 package <package>;
 
+import org.junit.Test;
 import ${package}.test.AppTestSetupController;
 import ${package}.top.Main;
 import com.thesett.test.base.FullStackCRUDTestBase;
@@ -65,6 +66,26 @@ public class <name; format="ccu">FullStackCRUDTest extends FullStackCRUDTestBase
         <name; format="ccu">Resource <name; format="cc">Resource = new <name; format="ccu">Resource(<name; format="cc">DAO);
 
         return HibernateSessionAndDetachProxy.proxy(<name; format="cc">Resource, <name; format="ccu">Service.class, sessionFactory);
+    }
+
+    @Test
+    public void testFindAllNotEmpty() throws Exception {
+        testFindAllNotEmpty("findAll");
+    }
+    
+    @Test
+    public void testFindByExampleNotEmpty() throws Exception {
+        testFindByExampleNotEmpty("findByExample");
+    }
+
+    @Test
+    public void testJsonSchema() throws Exception {
+        testJsonSchema("schema");
+    }
+
+    @Test
+    public void testRootHal() throws Exception {
+        testRootHal("root");
     }
 }
 >>
