@@ -41,6 +41,8 @@ import com.thesett.util.commands.refdata.RefDataLoadException;
 import com.thesett.util.config.refdata.RefDataSetupBundle;
 import com.thesett.util.config.validation.BeanValidationBundle;
 
+import ${package}.services.ServiceFactory;
+import ${package}.services.local.LocalServiceFactory;    
 import ${package}.config.AppConfiguration;
 
 >>
@@ -75,7 +77,17 @@ for_beans(catalogue, package, decorators) ::= <<
 <endif>}>
 <decorators:{decorator|<if(decorator.entitySubType)>
         <add_service_to_factory(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
-<endif>}>        
+<endif>}>
+<class_part5(catalogue=catalogue, package=package)>
+<decorators:{decorator|<if(decorator.entitySubType)>
+        <create_dao(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+<endif>}>    
+<decorators:{decorator|<if(decorator.entitySubType)>
+        <create_service(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+<endif>}>
+<class_part6(catalogue=catalogue, package=package)>
+<decorators:{decorator|<if(decorator.entitySubType)>
+        <list_resources(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)><endif>}; separator=", ">
 <class_footer(catalogue=catalogue, package=package)>
 >>   
     
@@ -240,7 +252,7 @@ class_part3(catalogue, package) ::= <<
     }
     
     /** {@inheritDoc} */
-    public ReflectiveDAOFactory getTransactionalDAOFactory(SessionFactory sessionFactory,
+    public ReflectiveDAOFactory getTransactionalReflectiveDAOFactory(SessionFactory sessionFactory,
         ValidatorFactory validatorFactory)
     {
         HibernateTransactionDAOFactory daoFactory =
@@ -261,7 +273,7 @@ class_part4(catalogue, package) ::= <<
     }
 
     /** {@inheritDoc} */
-    public ReflectiveServiceFactory getLocalServiceFactory(SessionFactory sessionFactory,
+    public ReflectiveServiceFactory getLocalReflectiveServiceFactory(SessionFactory sessionFactory,
         ValidatorFactory validatorFactory)
     {
         LocalReflectiveServiceFactory serviceFactory =
@@ -277,8 +289,29 @@ add_service_to_factory(catalogue, package, decorator) ::= <<
 serviceFactory.addService(<decorator.name; format="ccu">Service.class, <decorator.name; format="cc">Resource);
 >>
 
-class_footer(catalogue, package) ::= <<
+class_part5(catalogue, package) ::= <<
         return serviceFactory;
-    }    
+    }
+
+    /** {@inheritDoc} */
+    public Object getLocalServiceFactory(SessionFactory sessionFactory,
+        ValidatorFactory validatorFactory)
+    {
+>>
+
+class_part6(catalogue, package) ::= <<
+        ServiceFactory serviceFactory =
+            new LocalServiceFactory(sessionFactory,
+>>
+
+list_resources(catalogue, package, decorator, name) ::= <%
+    <decorator.name ; format="cc">Resource
+%>
+
+class_footer(catalogue, package) ::= <<
+        );
+
+        return serviceFactory;
+    }        
 }
 >>
