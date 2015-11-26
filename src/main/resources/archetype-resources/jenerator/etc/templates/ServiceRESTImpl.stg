@@ -112,6 +112,7 @@ public class <name; format="ccu">Resource implements <name; format="ccu">Service
             .type("application/json");
     }
 
+    /** {@inheritDoc} */    
     @GET
     @Path("/hal")
     @Produces("application/hal+json")

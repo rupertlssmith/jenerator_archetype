@@ -79,6 +79,8 @@ public interface <name; format="ccu">Service extends CRUD\<<name; format="ccu">,
     /**
      * Lists all values that have fields that match the non-null fields in the example.
      *
+     * @param example An example to match the fields of.
+     *
      * @return A list of all matching values.
      */
     List\<<name; format="ccu">\> findByExample(<name; format="ccu"> example);
