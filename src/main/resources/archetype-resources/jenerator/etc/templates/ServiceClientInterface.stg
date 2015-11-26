@@ -71,7 +71,7 @@ public interface <name; format="ccu">Client extends <name; format="ccu">Service 
     @GET
     @Path("/schema")
     @Produces("application/schema+json")    
-    public JsonSchema schema();
+    JsonSchema schema();
 
     /** {@inheritDoc} */
     @GET
@@ -84,20 +84,20 @@ public interface <name; format="ccu">Client extends <name; format="ccu">Service 
     
     /** {@inheritDoc} */
     @POST
-    public <name; format="ccu"> create(<name; format="ccu"> <name; format="cc">) throws EntityException;
+    <name; format="ccu"> create(<name; format="ccu"> <name; format="cc">) throws EntityException;
 
     /** {@inheritDoc} */
     @GET
     @Path("/{<name; format="cc">Id}")
-    public <name; format="ccu"> retrieve(@PathParam("<name; format="cc">Id") Long id);
+    <name; format="ccu"> retrieve(@PathParam("<name; format="cc">Id") Long id);
 
     /** {@inheritDoc} */
     @PUT
     @Path("/<name; format="cc">Id")
-    public <name; format="ccu"> update(@PathParam("<name; format="cc">Id") Long id, <name; format="ccu"> <name; format="cc">) throws EntityException;
+    <name; format="ccu"> update(@PathParam("<name; format="cc">Id") Long id, <name; format="ccu"> <name; format="cc">) throws EntityException;
 
     /** {@inheritDoc} */
     @DELETE
-    public void delete(@PathParam("<name; format="cc">Id") Long id) throws EntityException;
+    void delete(@PathParam("<name; format="cc">Id") Long id) throws EntityException;
 }
 >>
