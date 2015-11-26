@@ -426,7 +426,7 @@ public RefDataItem getAsJson() {
  *
  * @return The factory for creating instances of the enum.
  */        
-private EnumeratedStringAttribute.EnumeratedStringAttributeFactory enumFactory() {
+private static EnumeratedStringAttribute.EnumeratedStringAttributeFactory enumFactory() {
     return EnumeratedStringAttribute.getFactoryForClass("<name>");
 }    
 >>
