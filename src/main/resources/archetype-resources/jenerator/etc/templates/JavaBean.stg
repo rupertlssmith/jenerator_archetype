@@ -350,7 +350,11 @@ public <name; format="ccu">() {
     // No-arg constructor for serialization.    
 }
 
-/** The constructor to build the enumeration from a Ref. */
+/**
+ * The constructor to build the enumeration from a Ref.
+ *
+ * @param ref The reference data item supplying an id.
+ */
 public <name; format="ccu">(RefDataItem ref) {
     long id = ref.getId();
     
@@ -361,7 +365,11 @@ public <name; format="ccu">(RefDataItem ref) {
     }
 }
     
-/** The constructor to build the enumeration from an id. */
+/**
+ * The constructor to build the enumeration from an id.
+ *
+ * @param id The id.
+ */
 public <name; format="ccu">(long id) {
     if (id != -1) {
         <name; format="cc"> = enumFactory().getAttributeFromId(id);
@@ -370,7 +378,11 @@ public <name; format="ccu">(long id) {
     }
 }
         
-/** The constructor to build the enumeration from a label or an id. */
+/**
+ * The constructor to build the enumeration from a label or an id.
+ *
+ * @param value The label.
+ */
 public <name; format="ccu">(<fields.keys:{it|<(customBeanTypeMap.(fields.(it).kind))(fields.(it))> <it; format="cc">}; separator=", ">) {
     TryParseLong valueAsLong = new TryParseLong(value);
 
@@ -387,7 +399,11 @@ public <name; format="ccu">(<fields.keys:{it|<(customBeanTypeMap.(fields.(it).ki
     }
 }
 
-/** The constructor to build the enumeration from an instance. */
+/**
+ * The constructor to build the enumeration from an instance.
+ *
+ * @param <name; format="cc"> The enumeration instance.
+ */
 public <name; format="ccu">(EnumeratedStringAttribute <name; format="cc">) {
     this.<name; format="cc"> = <name; format="cc">;
 }
