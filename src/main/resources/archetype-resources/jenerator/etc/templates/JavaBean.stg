@@ -855,6 +855,8 @@ basic_fluent(this, field, typeMap) ::= <<
  * Accepts a new value for the <field> property.
  *
  * @param <field; format="cc"> The <field> property.
+ *
+ * @return 'this' (so that fluents can be chained methods).
  */
 public <this; format="ccu"> with<field; format="ccu">(<(typeMap.(fields.(field).kind))(fields.(field))> <field; format="cc">) {
     this.<field; format="cc"> = <field; format="cc">;
@@ -870,6 +872,8 @@ hierarchy_fluent(this) ::= <<
  * Accepts a new value for the <it> property.
  *
  * @param <it; format="cc"> The <it> property.
+ *
+ * @return 'this' (so that fluents can be chained methods).    
  */
 public <this; format="ccu"> with<it; format="ccu">(<(typeMap.(fields.(it).kind))(fields.(it))> <it; format="cc">) {
     this.<it; format="cc"> = <it; format="cc">;
