@@ -3,10 +3,6 @@
 #set( $symbol_escape = '\' )
 package ${package}.config;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
