@@ -269,6 +269,7 @@ catalogue_range_bean(catalogue, decorator, name, fields, extraConsFields, baseCl
 component_constructor(name, fields) ::= <<
 /** No-arg constructor for serialization. */
 public <name; format="ccu">() {
+    // No-arg constructor for serialization.
 }
 
 <if(fluents)>
