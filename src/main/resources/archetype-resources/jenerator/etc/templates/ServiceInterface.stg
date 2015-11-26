@@ -60,14 +60,14 @@ public interface <name; format="ccu">Service extends CRUD\<<name; format="ccu">,
      *
      * @return The root HAL for the service.
      */
-    public Resource root();
+    Resource root();
     
     /**
      * Provides a json-schema describing the <name; format="ccu"> data model.
      *
      * @return A json-schema describing the <name; format="ccu"> data model.
      */
-    public JsonSchema schema();
+    JsonSchema schema();
 
     /**
      * Lists all values.
@@ -81,18 +81,18 @@ public interface <name; format="ccu">Service extends CRUD\<<name; format="ccu">,
      *
      * @return A list of all matching values.
      */
-    public List\<<name; format="ccu">\> findByExample(<name; format="ccu"> example);
+    List\<<name; format="ccu">\> findByExample(<name; format="ccu"> example);
     
     /** {@inheritDoc} */
-    public <name; format="ccu"> create(<name; format="ccu"> <name; format="cc">) throws EntityException;
+    <name; format="ccu"> create(<name; format="ccu"> <name; format="cc">) throws EntityException;
 
     /** {@inheritDoc} */
-    public <name; format="ccu"> retrieve(Long id);
+    <name; format="ccu"> retrieve(Long id);
 
     /** {@inheritDoc} */
-    public <name; format="ccu"> update(Long id, <name; format="ccu"> <name; format="cc">) throws EntityException;
+    <name; format="ccu"> update(Long id, <name; format="ccu"> <name; format="cc">) throws EntityException;
 
     /** {@inheritDoc} */
-    public void delete(Long id) throws EntityException;
+    void delete(Long id) throws EntityException;
 }
 >>
