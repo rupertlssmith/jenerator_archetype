@@ -289,6 +289,7 @@ public <name; format="ccu">(<fields.keys:{it|<(typeMap.(fields.(it).kind))(field
 hierarchy_constructor(name, fields) ::= <<
 /** No-arg constructor for serialization. */
 public <name; format="ccu">() {
+    // No-arg constructor for serialization.
 }
     
 /** The constructor to build the hierarchy from a single top-level label. */
@@ -327,6 +328,7 @@ public HierarchyAttribute getHierarchy() {
 view_impl_constructor(name, fields) ::= <<
 /** No-arg constructor for serialization. */
 public <name; format="ccu">() {
+    // No-arg constructor for serialization.    
 }
     
 /** The constructor to build the view with an id and external id as well as the usual parameter. */
@@ -345,6 +347,7 @@ private static final String INVALID_VALUE = "-=InvalidValue";
 
 /** No-arg constructor for serialization. */
 public <name; format="ccu">() {
+    // No-arg constructor for serialization.    
 }
 
 /** The constructor to build the enumeration from a Ref. */
