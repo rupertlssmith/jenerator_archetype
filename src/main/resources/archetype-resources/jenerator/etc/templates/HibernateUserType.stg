@@ -16,10 +16,10 @@ file_open
  */
 for_bean(catalogue, package, decorator, fields, extraFields) ::= <<
 <if(decorator.hierarchyType)>
-<hibernate_hierarchy_usertype(catalogue=catalogue, name=decorator.name, fields=extraFields)>
+<hibernate_hierarchy_usertype(catalogue=catalogue, name=decorator.name, package=package, fields=extraFields)>
 <endif>
 <if(decorator.enumerationType)>
-<hibernate_enumeration_usertype(catalogue=catalogue, name=decorator.name)>
+<hibernate_enumeration_usertype(catalogue=catalogue, name=decorator.name, package=package)>
 <endif>
 >>
 
@@ -33,22 +33,22 @@ file_close
 /*
  * Creates a Hibernate user type, to map a hierarchy as a composite bean type.
  */
-hibernate_hierarchy_usertype(catalogue, name, fields) ::= <<
-<hibernate_usertype(catalogue=catalogue, name=name, baseClass="HierarchyAttributeCompositeUserType", extraMethods="hibernate_hierarchy_setup_methods", extraMethodsFields=fields)>
+hibernate_hierarchy_usertype(catalogue, name, package, fields) ::= <<
+<hibernate_usertype(catalogue=catalogue, name=name, package=package, baseClass="HierarchyAttributeCompositeUserType", extraMethods="hibernate_hierarchy_setup_methods", extraMethodsFields=fields)>
 >>
 
 /*
  * Creates a Hibernate user type, to map an enumeration as a single column bean type.
  */
-hibernate_enumeration_usertype(catalogue, name) ::= <<
-<hibernate_usertype(catalogue=catalogue, name=name, baseClass="EnumeratedStringAttributeUserType")>
+hibernate_enumeration_usertype(catalogue, name, package) ::= <<
+<hibernate_usertype(catalogue=catalogue, name=name, package=package, baseClass="EnumeratedStringAttributeUserType")>
 >>
 
 /*
  * Creates a custom hibernate mapping type.
  */
-hibernate_usertype(catalogue, name, baseClass, extraMethods=false, extraMethodsFields=false) ::= <<
-<package(catalogue)>
+hibernate_usertype(catalogue, name, package, baseClass, extraMethods=false, extraMethodsFields=false) ::= <<
+package <package>;
 
 import com.thesett.catalogue.customtypes.EnumeratedStringAttributeUserType;
 
