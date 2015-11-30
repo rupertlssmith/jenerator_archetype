@@ -16,10 +16,10 @@ file_open(catalogue, package) ::= <<
  */
 for_bean(catalogue, package, decorator, fields, extraFields) ::= <<
 «if(decorator.hierarchyType)»
-«hibernate_config_hierarchy_typedef(catalogue=catalogue, name=decorator.name, fields=fields)»
+«hibernate_config_hierarchy_typedef(catalogue=catalogue, package=package, name=decorator.name, fields=fields)»
 «endif»
 «if(decorator.enumerationType)»
-«hibernate_config_enumeration_typedef(catalogue=catalogue, name=decorator.name, fields=fields)»
+«hibernate_config_enumeration_typedef(catalogue=catalogue, package=package, name=decorator.name, fields=fields)»
 «endif»
 >>
 

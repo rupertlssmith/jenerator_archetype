@@ -148,15 +148,15 @@ hibernate_config_close() ::= <<
 /*
  * Creates a hibernate configuration section for a hierarchy typedef.
  */
-hibernate_config_hierarchy_typedef(catalogue, name, fields) ::= <<
-  <typedef class="«catalogue.modelPackage».«name; format="ccu"»UserType" name="«name»_hierarchy"/>
+hibernate_config_hierarchy_typedef(catalogue, package, name, fields) ::= <<
+  <typedef class="«package».«name; format="ccu"»UserType" name="«name»_hierarchy"/>
 
 >>
 
 /*
  * Creates a hibernate configuration section for a hierarchy bean.
  */
-hibernate_config_hierarchy_bean(catalogue, decorator, name, fields) ::= <<
+hibernate_config_hierarchy_bean(catalogue, package, decorator, name, fields) ::= <<
   <class name="«name; format="ccu"»" table="«name»_hierarchy" lazy="true">
     <id name="id" column="id" type="long">
       <generator class="assigned"/>
@@ -171,15 +171,15 @@ hibernate_config_hierarchy_bean(catalogue, decorator, name, fields) ::= <<
 /*
  * Creates a hibernate configuration section for an enumeration typedef.
  */
-hibernate_config_enumeration_typedef(catalogue, name, fields) ::= <<
-  <typedef class="«catalogue.modelPackage».«name; format="ccu"»UserType" name="«name»_enumeration"/>
+hibernate_config_enumeration_typedef(catalogue, package, name, fields) ::= <<
+  <typedef class="«package».«name; format="ccu"»UserType" name="«name»_enumeration"/>
 
 >>
 
 /*
  * Creates a hibernate configuration section for an enumeration bean.
  */
-hibernate_config_enumeration_bean(catalogue, decorator, name, fields) ::= <<
+hibernate_config_enumeration_bean(catalogue, package, decorator, name, fields) ::= <<
   <class name="«name; format="ccu"»" table="«name»_enumeration" lazy="true">
     <id name="id" column="id" type="long">
       <generator class="assigned"/>
@@ -192,7 +192,7 @@ hibernate_config_enumeration_bean(catalogue, decorator, name, fields) ::= <<
 /*
  * Creates a hibernate configuration section for an entity in the online tables.
  */
-hibernate_config_class_online(catalogue, decorator, name, fields) ::= <<
+hibernate_config_class_online(catalogue, package, decorator, name, fields) ::= <<
   «hibernate_config_class(catalogue=catalogue, decorator=decorator, name=name, fields=fields, templateMap=hibernateOnlineTemplateMap)»
 
 >>
