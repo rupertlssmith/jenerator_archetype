@@ -15,9 +15,9 @@ server:
   requestLog:
     appenders: []    
 
-assets:
- overrides:
-   /assets: dashboard_ui/src/main/webapp/assets/
+#assets:
+# overrides:
+#   /assets: some_ui/src/main/webapp/assets/
         
 logging:
   level: INFO
