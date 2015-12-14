@@ -16,7 +16,9 @@ import java.text.ParseException;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 
-import org.glassfish.jersey.media.multipart.MultiPartFeature;    
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;                
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.strategicgains.hyperexpress.HyperExpress;
 import com.strategicgains.hyperexpress.domain.hal.HalResourceFactory;
