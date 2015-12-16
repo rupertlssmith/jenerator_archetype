@@ -5,7 +5,8 @@ package ${package}.top;
 
 import javax.validation.ValidatorFactory;
 
-import com.thesett.catalogue.model.Catalogue;
+import com.thesett.util.servlet.filter.CORSFilter;
+
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
@@ -43,6 +44,13 @@ public class Example {
      * @param serviceFactory The service factory.
      */
     public void example(ServiceFactory serviceFactory) {
+        // Add the CORS fitler to allow cross-origin browsing to this API - needed to support
+        // javascript clients that are running on a different origin to the one this API is
+        // being served from. Disable this for secuirty, if a javascript client is not being used
+        // or is being served from the same origin.
+        environment.servlets()
+            .addFilter("cors", new CORSFilter())
+            .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
     }
 
     /**
