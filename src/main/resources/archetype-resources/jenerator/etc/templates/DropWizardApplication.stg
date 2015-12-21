@@ -209,7 +209,7 @@ class_part2(catalogue, package) ::= <<
         bootstrap.getObjectMapper().registerModule(new JodaTimeModule());
         bootstrap.getObjectMapper().configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, false);
         bootstrap.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        bootstrap.getObjectMapper().configure(JsonGenerator.Feature.QUOTE_FIELD_NAMES, false);
+        bootstrap.getObjectMapper().configure(JsonGenerator.Feature.QUOTE_FIELD_NAMES, true);
         bootstrap.getObjectMapper().configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
         
         bootstrap.getObjectMapper().registerModule(new HalResourceModule());
