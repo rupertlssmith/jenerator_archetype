@@ -352,6 +352,18 @@
         
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>com.thesett:*</include>
+                        <include>com.thesett.jenerator.utils:*</include>
+                        <include>com.thesett.validation:*</include>
+                    </includes>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
