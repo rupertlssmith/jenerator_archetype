@@ -473,7 +473,8 @@ view_serdes_control(decorator) ::= <<
 /* Serialization control for enums. */
 enum_serdes_control(decorator) ::= <<
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(Include.NON_NULL)    
+@JsonInclude(Include.NON_NULL)
+@ApiModel(value="RefDataItem")
 >>    
 
 /* Serialization control for enum fields. */    
@@ -496,6 +497,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import com.thesett.util.entity.Entity;
+
+import io.swagger.annotations.ApiModelProperty;                
 >>    
 
 /* Imports for dimensions. */
@@ -554,6 +557,9 @@ import com.thesett.util.model.RefDataItem;
 import com.thesett.util.parsing.TryParseLong;
 
 import com.thesett.aima.attribute.impl.EnumeratedStringAttribute;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 >>
 
 /* Empty, no serialization control. */
@@ -582,12 +588,12 @@ import com.thesett.util.equality.EqualityHelper;
  * Generated bean from catalogue model.<if(decorator.naturalKeyFieldTypes)>
     
  *
- * \<p/>Equality (and hashCode) is based on the following fields:
+ * \<p>Equality (and hashCode) is based on the following fields:
  *
- * \<pre>\<p/>\<table id="equality">\<caption>Equality Fields\</caption>
+ * \<table id="equality">\<caption>Equality Fields\</caption>
  * \<tr>\<th> Field Name \</th>\</tr>
-<decorator.naturalKeyFieldTypes.keys:{it| * \<tr>\<td> <it; format="cc"> \</tr>\</td>}; separator="\n">
- * \</table>\</pre><endif>    
+<decorator.naturalKeyFieldTypes.keys:{it| * \<tr>\<td> <it; format="cc"> \</td>\</tr>}; separator="\n">
+ * \</table><endif>    
  *
  * @author Generated Code
  */
@@ -802,12 +808,25 @@ public void setId(Long id) {
 }
 >>
 
+componentFieldAnnotationTypeMap ::= [
+    "Enumeration":"hidden_field_annotation",
+    "Component":"hidden_field_annotation",
+    "Entity":"hidden_field_annotation",
+    "Collection":"hidden_field_annotation"
+]
+
+hidden_field_annotation(field) ::= <<
+// annotations for <field.name; format="ccu">
+@ApiModelProperty(hidden = true)        
+>>
+
 /*
  * Creates protected field declarations for all name/type attributes.
  */
 field_declrs(field, presentAs) ::= <<
 /** Holds the <field> property. */    
 <if(presentAs)>@JsonProperty(value = "<presentAs>")<endif>
+<if(componentFieldAnnotationTypeMap.(fields.(field).kind))><(componentFieldAnnotationTypeMap.(fields.(field).kind))(fields.(field))><endif>
 protected <(typeMap.(fields.(field).kind))(fields.(field))> <field; format="cc">;
 >>
 

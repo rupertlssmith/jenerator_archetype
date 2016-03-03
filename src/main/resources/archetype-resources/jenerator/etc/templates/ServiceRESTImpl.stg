@@ -65,12 +65,19 @@ import <catalogue.modelPackage>.<name; format="ccu">;
 import ${package}.dao.<name; format="ccu">DAO;
 import ${package}.services.<name; format="ccu">Service;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiResponse;
+
 /**
  * REST API implementation for working with <name; format="ccu">
  *
  * @author Generated Code
  */
 @Path("/api/<name; format="cc">/")
+@Api(value = "/api/<name; format="cc">/", description = "API implementation for working with <name; format="ccu">")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(value = MediaType.APPLICATION_JSON)
 public class <name; format="ccu">Resource implements <name; format="ccu">Service {
@@ -116,6 +123,7 @@ public class <name; format="ccu">Resource implements <name; format="ccu">Service
     @GET
     @Path("/hal")
     @Produces("application/hal+json")
+    @ApiOperation(value = "Provides a HAL description of the <name; format="ccu"> services.")
     public Resource root() {
         return HyperExpress.createResource(this, "application/hal+json");
     }        
@@ -124,6 +132,7 @@ public class <name; format="ccu">Resource implements <name; format="ccu">Service
     @GET
     @Path("/schema")
     @Produces("application/schema+json")
+    @ApiOperation(value = "Provides a json-schema describing <name; format="ccu">.")
     public JsonSchema schema() {
         return JsonSchemaUtil.getJsonSchema(<name; format="ccu">.class);
     }
@@ -131,6 +140,7 @@ public class <name; format="ccu">Resource implements <name; format="ccu">Service
     /** {@inheritDoc} */
     @GET
     @UnitOfWorkWithDetach
+    @ApiOperation(value = "Provides a list of all <name; format="ccu"> items.")
     public List\<<name; format="ccu">\> findAll() {
         return <name; format="cc">DAO.browse(ENTITY_NAME);
     }
@@ -139,6 +149,7 @@ public class <name; format="ccu">Resource implements <name; format="ccu">Service
     @POST
     @Path("/example")
     @UnitOfWorkWithDetach
+    @ApiOperation(value = "Provides a list of all <name; format="ccu"> items that match the fields in the posted example.")        
     public List\<<name; format="ccu">\> findByExample(<name; format="ccu"> example) {
         return <name; format="cc">DAO.findByExample(example, ENTITY_NAME);
     }
@@ -146,6 +157,10 @@ public class <name; format="ccu">Resource implements <name; format="ccu">Service
     /** {@inheritDoc} */
     @POST
     @UnitOfWorkWithDetach
+    @ApiOperation(value = "Creates a new <name; format="ccu">.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 422, message = "Invalid data supplied.")
+    })
     public <name; format="ccu"> create(<name; format="ccu"> <name; format="cc">) throws EntityException {
         return <name; format="cc">DAO.create(<name; format="cc">);
     }
@@ -155,7 +170,11 @@ public class <name; format="ccu">Resource implements <name; format="ccu">Service
     @Path("/{<name; format="cc">Id}")
     @Timed
     @UnitOfWorkWithDetach
-    public <name; format="ccu"> retrieve(@PathParam("<name; format="cc">Id") Long id) {
+    @ApiOperation(value = "Retreives a <name; format="ccu"> by its id.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 400, message = "No item found matching the supplied id.")
+    })        
+    public <name; format="ccu"> retrieve(@ApiParam(value = "The id of the item to retrieve.", required = true) @PathParam("<name; format="cc">Id") Long id) {
         return <name; format="cc">DAO.retrieve(id);
     }
 
@@ -163,15 +182,24 @@ public class <name; format="ccu">Resource implements <name; format="ccu">Service
     @PUT
     @UnitOfWorkWithDetach
     @Path("/{<name; format="cc">Id}")
-    public <name; format="ccu"> update(@PathParam("<name; format="cc">Id") Long id, <name; format="ccu"> <name; format="cc">) throws EntityException {
+    @ApiOperation(value = "Replaces a <name; format="ccu"> with an updated version, match by its id.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 422, message = "Invalid data supplied."),
+        @ApiResponse(code = 400, message = "No item found matching the supplied id.")
+    })        
+    public <name; format="ccu"> update(@ApiParam(value = "The id of the item to update.", required = true) @PathParam("<name; format="cc">Id") Long id, <name; format="ccu"> <name; format="cc">) throws EntityException {
         return <name; format="cc">DAO.update(id, <name; format="cc">);
     }
 
     /** {@inheritDoc} */
     @DELETE
     @UnitOfWorkWithDetach
-    @Path("/{<name; format="cc">Id}")    
-    public void delete(@PathParam("<name; format="cc">Id") Long id) throws EntityException {
+    @Path("/{<name; format="cc">Id}")
+    @ApiOperation(value = "Deletes a <name; format="ccu"> by its id.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 400, message = "No item found matching the supplied id.")
+    })
+    public void delete(@ApiParam(value = "The id of the item to delete.", required = true) @PathParam("<name; format="cc">Id") Long id) throws EntityException {
         <name; format="cc">DAO.delete(id);
     }
 }
