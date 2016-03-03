@@ -33,3 +33,6 @@ refdata: refdata
 modelResource: ${rootArtifactId}-model.xml
    
 beanValidationConstraints: constraints.xml
+
+swagger:
+  resourcePackage: com.thesett.accounts.services

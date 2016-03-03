@@ -13,6 +13,9 @@ import com.thesett.util.servlet.filter.CORSFilter;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
+import io.federecio.dropwizard.swagger.SwaggerBundle;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -39,6 +42,11 @@ public class Example {
      * @param bootstrap The DropWizard bootstrap configuration.
      */
     public void bootstrap(Bootstrap<AppConfiguration> bootstrap) {
+        bootstrap.addBundle(new SwaggerBundle<AppConfiguration>() {
+            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(AppConfiguration configuration) {
+                return configuration.swaggerBundleConfiguration;
+            }
+        });
     }
 
     /**

@@ -12,12 +12,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 
 /**
  * AppConfiguration holds configuration items for Accounts.
  */
 public class AppConfiguration extends Configuration implements AssetsBundleConfiguration
 {
+    @JsonProperty("swagger")
+    public SwaggerBundleConfiguration swaggerBundleConfiguration;
+
     /** Holds the web assets configuration. */
     @Valid
     @NotNull
