@@ -498,7 +498,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import com.thesett.util.entity.Entity;
 
-import io.swagger.annotations.ApiModelProperty;                
+import io.swagger.annotations.ApiModelProperty;
 >>    
 
 /* Imports for dimensions. */
@@ -532,6 +532,8 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import io.swagger.annotations.ApiModelProperty;
 >>
 
 /* Imports for views. */
