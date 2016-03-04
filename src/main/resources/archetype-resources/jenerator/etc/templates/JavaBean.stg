@@ -810,7 +810,6 @@ public void setId(Long id) {
 
 componentFieldAnnotationTypeMap ::= [
     "Enumeration":"hidden_field_annotation",
-    "Component":"hidden_field_annotation",
     "Entity":"hidden_field_annotation",
     "Collection":"hidden_field_annotation"
 ]
