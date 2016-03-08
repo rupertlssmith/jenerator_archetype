@@ -557,6 +557,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import com.thesett.util.model.RefDataItem;
 import com.thesett.util.parsing.TryParseLong;
+import com.thesett.util.archetype.EnumType;
 
 import com.thesett.aima.attribute.impl.EnumeratedStringAttribute;
 
@@ -600,7 +601,7 @@ import com.thesett.util.equality.EqualityHelper;
  * @author Generated Code
  */
 <(serDesControlMap.(decorator.kind))(decorator)>
-public class <name; format="ccu"> <if(baseClass)>extends <baseClass><endif> implements <if(decorator.immediateAncestors)><decorator.immediateAncestors:{it|<it.name; format="ccu">}; separator=",">, <endif><if(decorator.externalId)>ExternallyIdentified, <endif><if(decorator.entitySubType)>Entity\<Long>,<endif> Serializable {
+public class <name; format="ccu"> <if(baseClass)>extends <baseClass><endif> implements <if(decorator.immediateAncestors)><decorator.immediateAncestors:{it|<it.name; format="ccu">}; separator=",">, <endif><if(decorator.externalId)>ExternallyIdentified, <endif><if(decorator.entitySubType)>Entity\<Long>,<endif><if(decorator.enumerationType)>EnumType,<endif> Serializable {
     <(constantsTemplateMap.(decorator.kind))(decorator)>
 
     <if(decorator.externalId)>
@@ -811,9 +812,8 @@ public void setId(Long id) {
 >>
 
 componentFieldAnnotationTypeMap ::= [
-    "Enumeration":"hidden_field_annotation",
     "Entity":"hidden_field_annotation",
-    "Collection":"hidden_field_annotation"
+    "Collection":"hidden_field_annotation"        
 ]
 
 hidden_field_annotation(field) ::= <<

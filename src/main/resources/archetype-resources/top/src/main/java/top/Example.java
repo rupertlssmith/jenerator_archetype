@@ -9,12 +9,15 @@ import javax.servlet.DispatcherType;
 import javax.validation.ValidatorFactory;
 
 import com.thesett.util.servlet.filter.CORSFilter;
+import com.thesett.util.swagger.EnumTypeModelConverter;
 
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
+
+import io.swagger.converter.ModelConverters;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -47,6 +50,8 @@ public class Example {
                 return configuration.swaggerBundleConfiguration;
             }
         });
+
+        ModelConverters.getInstance().addConverter(new EnumTypeModelConverter());
     }
 
     /**
