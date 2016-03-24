@@ -63,27 +63,27 @@ for_beans(catalogue, package, decorators) ::= <<
 <endif>}>
 <class_part3(catalogue=catalogue, package=package)>
 <decorators:{decorator|<if(decorator.entitySubType)>
-        <create_dao(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+        <create_dao(catalogue=catalogue, package=package, decorator=decorator)>
 <endif>}>
 <decorators:{decorator|<if(decorator.entitySubType)>
-        <add_dao_to_factory(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+        <add_dao_to_factory(catalogue=catalogue, package=package, decorator=decorator)>
 <endif>}>
 <class_part4(catalogue=catalogue, package=package)>
 <decorators:{decorator|<if(decorator.entitySubType)>
-        <create_dao(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+        <create_dao(catalogue=catalogue, package=package, decorator=decorator)>
 <endif>}>    
 <decorators:{decorator|<if(decorator.entitySubType)>
-        <create_service(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+        <create_service(catalogue=catalogue, package=package, decorator=decorator)>
 <endif>}>
 <decorators:{decorator|<if(decorator.entitySubType)>
-        <add_service_to_factory(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+        <add_service_to_factory(catalogue=catalogue, package=package, decorator=decorator)>
 <endif>}>
 <class_part5(catalogue=catalogue, package=package)>
 <decorators:{decorator|<if(decorator.entitySubType)>
-        <create_dao(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+        <create_dao(catalogue=catalogue, package=package, decorator=decorator)>
 <endif>}>    
 <decorators:{decorator|<if(decorator.entitySubType)>
-        <create_service(catalogue=catalogue, package=package, decorator=decorator, name=decorator.name)>
+        <create_service(catalogue=catalogue, package=package, decorator=decorator)>
 <endif>}>
 <class_part6(catalogue=catalogue, package=package)>
 <decorators:{decorator|<if(decorator.entitySubType)>
