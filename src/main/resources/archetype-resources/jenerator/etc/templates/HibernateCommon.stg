@@ -297,6 +297,7 @@ generate_relationship_to_component_embed(decorator, fieldName, fieldDecorator, r
 
 generate_relationship_to_component_json(decorator, fieldName, fieldDecorator, relationship) ::= <<
 <!-- serialize_it_as_json -->
+<property name="«fieldName; format="cc"»" column="«fieldName; format="cc"»" type="json"/>        
 >>                
 
 /*

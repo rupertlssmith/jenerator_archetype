@@ -30,5 +30,6 @@ file_close() ::= <<
   <typedef class="org.jadira.usertype.dateandtime.joda.PersistentLocalDate" name="date_only"/>
   <typedef class="com.thesett.catalogue.customtypes.TimeOnlyUserType" name="time_only"/>
   <typedef class="org.jadira.usertype.dateandtime.joda.PersistentDateTime" name="timestamp"/>
+  <typedef class="com.thesett.util.hibernate.JsonUserType" name="json"/>
 
 >>
