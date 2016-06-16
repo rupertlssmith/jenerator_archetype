@@ -267,15 +267,37 @@ append(a, b) ::= <<«if(a)»«a»«b»«else»«b»«endif»>>
  */
 component_ref_property_online(fieldName, decorator, fieldDecorator, qualifier) ::= <<
 «if(fieldDecorator.component)»
-<component name="«fieldName; format="cc"»">
-  «fieldDecorator.allPropertyTypes.keys:{compFieldName|«(templateMap.(fieldDecorator.allPropertyTypes.(compFieldName).kind))(compFieldName, decorator, fieldDecorator.allPropertyTypes.(compFieldName), append(qualifier, fieldName))»}; separator="\n"»
-</component>
+«generate_relationship_to_component(fieldName=fieldName, decorator=decorator, fieldDecorator=fieldDecorator, relationship=decorator.relationships.(fieldName))»        
 «else»
 «if(fieldDecorator.entitySubType)»
 «generate_relationship(fieldName=fieldName, decorator=decorator, fieldDecorator=fieldDecorator, relationship=decorator.relationships.(fieldName))»
 «endif»
 «endif»
 >>
+
+/*
+ * Holds a mapping from kinds of relationship storage to the name of a template that
+ * describes that storage.
+ */
+relationStorageMap ::= [
+    "EmbeddedInline":"generate_relationship_to_component_embed",
+    "DocJson":"generate_relationship_to_component_json"
+]
+        
+generate_relationship_to_component(decorator, fieldName, fieldDecorator, relationship) ::= <<
+«if(relationship)»<!--REL: «fieldName» -> «relationship.target; format="ccu"»:«relationship.targetFieldName; format="cc"» «relationship.from»-«relationship.to» «relationship.name» «if(relationship.owner)»owner«endif» «if(relationship.biDirectional)»bi«else»uni«endif» «relationship.storageType»-->«endif»        
+«(relationStorageMap.(relationship.storageType))(decorator, fieldName, fieldDecorator, relationship)»
+>>
+
+generate_relationship_to_component_embed(decorator, fieldName, fieldDecorator, relationship) ::= <<
+<component name="«fieldName; format="cc"»">
+  «fieldDecorator.allPropertyTypes.keys:{compFieldName|«(templateMap.(fieldDecorator.allPropertyTypes.(compFieldName).kind))(compFieldName, decorator, fieldDecorator.allPropertyTypes.(compFieldName), append(qualifier, fieldName))»}; separator="\n"»
+</component>        
+>>
+
+generate_relationship_to_component_json(decorator, fieldName, fieldDecorator, relationship) ::= <<
+<!-- serialize_it_as_json -->
+>>                
 
 /*
  * Creates a property configuration for a collection type.
@@ -396,7 +418,7 @@ component_ref_property_warehouse(fieldName, decorator, fieldDecorator, qualifier
  * Creates a comment describing an entity relationship.
  */
 generate_relationship(decorator, fieldName, fieldDecorator, relationship) ::= <<
-«if(relationship)»<!--REL: «fieldName» -> «relationship.target; format="ccu"»:«relationship.targetFieldName; format="cc"» «relationship.from»-«relationship.to» «relationship.name» «if(relationship.owner)»owner«endif» «if(relationship.biDirectional)»bi«else»uni«endif»-->«endif»
+«if(relationship)»<!--REL: «fieldName» -> «relationship.target; format="ccu"»:«relationship.targetFieldName; format="cc"» «relationship.from»-«relationship.to» «relationship.name» «if(relationship.owner)»owner«endif» «if(relationship.biDirectional)»bi«else»uni«endif» «relationship.storageType»-->«endif»
 «if(relationship.fromOne)»
 «if(relationship.toOne)»
 «generate_relationship_one_to_one(decorator=decorator, fieldName=fieldName, fieldDecorator=fieldDecorator, relationship=relationship)»
