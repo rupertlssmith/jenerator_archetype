@@ -267,11 +267,11 @@ append(a, b) ::= <<«if(a)»«a»«b»«else»«b»«endif»>>
  */
 component_ref_property_online(fieldName, decorator, fieldDecorator, qualifier) ::= <<
 «if(fieldDecorator.component)»
+«generate_relationship_to_component(fieldName=fieldName, decorator=decorator, fieldDecorator=fieldDecorator, relationship=decorator.relationships.(fieldName))»
+«elseif(fieldDecorator.view)»
 «generate_relationship_to_component(fieldName=fieldName, decorator=decorator, fieldDecorator=fieldDecorator, relationship=decorator.relationships.(fieldName))»        
-«else»
-«if(fieldDecorator.entitySubType)»
+«elseif(fieldDecorator.entitySubType)»
 «generate_relationship(fieldName=fieldName, decorator=decorator, fieldDecorator=fieldDecorator, relationship=decorator.relationships.(fieldName))»
-«endif»
 «endif»
 >>
 
@@ -297,7 +297,10 @@ generate_relationship_to_component_embed(decorator, fieldName, fieldDecorator, r
 
 generate_relationship_to_component_json(decorator, fieldName, fieldDecorator, relationship) ::= <<
 <!-- serialize_it_as_json -->
-<property name="«fieldName; format="cc"»" column="«fieldName; format="cc"»" type="json"/>        
+<property name="«fieldName; format="cc"»" type="json">
+  <column name="«fieldName; format="cc"»Class"/>        
+  <column name="«fieldName; format="cc"»"/>
+</property>
 >>                
 
 /*
