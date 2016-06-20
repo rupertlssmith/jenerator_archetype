@@ -317,7 +317,7 @@ collection_property_online(fieldName, decorator, fieldDecorator, qualifier) ::= 
 collection_set() ::= <<
 «if(collectionElementTemplateMap.(fieldDecorator.elementType.kind))»
 <set name="«fieldName; format="cc"»" «collectionTableAttributeMap.(fieldDecorator.elementType.kind)» lazy="false">
-  <key column="«fieldName»_id"/>
+  <key column="«fieldName»_col_id"/>
   «(collectionElementTemplateMap.(fieldDecorator.elementType.kind))()»
 </set>
 «endif»
@@ -326,7 +326,7 @@ collection_set() ::= <<
 collection_list() ::= <<
 «if(collectionElementTemplateMap.(fieldDecorator.elementType.kind))»
 <list name="«fieldName; format="cc"»" «collectionTableAttributeMap.(fieldDecorator.elementType.kind)» lazy="false">
-  <key column="«fieldName»_id"/>
+  <key column="«fieldName»_col_id"/>
   <list-index column="«fieldName»_index"/>
   «(collectionElementTemplateMap.(fieldDecorator.elementType.kind))()»
 </list>
@@ -336,7 +336,7 @@ collection_list() ::= <<
 collection_bag() ::= <<
 «if(collectionElementTemplateMap.(fieldDecorator.elementType.kind))»
 <bag name="«fieldName; format="cc"»" «collectionTableAttributeMap.(fieldDecorator.elementType.kind)» lazy="false">
-  <key column="«fieldName»_id"/>
+  <key column="«fieldName»_col_id"/>
   «(collectionElementTemplateMap.(fieldDecorator.elementType.kind))()»
 </bag>
 «endif»
@@ -345,8 +345,8 @@ collection_bag() ::= <<
 collection_map() ::= <<
 «if(collectionElementTemplateMap.(fieldDecorator.elementType.kind))»
 <map name="«fieldName; format="cc"»" «collectionTableAttributeMap.(fieldDecorator.elementType.kind)» lazy="false">
-  <key column="«fieldName»_id"/>
-  <map-key column="«fieldName»_key" «(hibernateTypeTemplateMap.(fieldDecorator.baseClassName))(fieldDecorator.keyType)»/>
+  <key column="«fieldName»_col_id"/>
+  <map-key column="«fieldName»_map_key" «(hibernateTypeTemplateMap.(fieldDecorator.baseClassName))(fieldDecorator.keyType)»/>
   «(collectionElementTemplateMap.(fieldDecorator.elementType.kind))()»
 </map>
 «endif»
