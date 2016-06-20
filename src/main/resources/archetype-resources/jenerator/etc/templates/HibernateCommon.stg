@@ -563,24 +563,24 @@ generate_relationship_many_to_many_uni_own(decorator, fieldName, fieldDecorator,
 
 collection_set_rel(decorator, fieldName, fieldDecorator, relationship, inverse=false, cascade=false, lazy=false) ::= <<
 <set name="«fieldName; format="cc"»" table="«relationship.name»"«if(inverse)» inverse="true"«endif»«if(cascade)» cascade="«cascade»"«endif»«if(lazy)» lazy="«lazy»"«endif»>
-  <key column="«decorator.name»_id"/>
+  <key column="«decorator.name»_col_id"/>
 >>
 
 collection_list_rel(decorator, fieldName, fieldDecorator, relationship, inverse=false, cascade=false, lazy=false) ::= <<
 <list name="«fieldName; format="cc"»" table="«relationship.name»"«if(inverse)» inverse="true"«endif»«if(cascade)» cascade="«cascade»"«endif»«if(lazy)» lazy="«lazy»"«endif»>
-  <key column="«decorator.name»_id"/>
+  <key column="«decorator.name»_col_id"/>
   <list-index column="«fieldName»_index"/>
 >>
 
 collection_bag_rel(decorator, fieldName, fieldDecorator, relationship, inverse=false, cascade=false, lazy=false) ::= <<
 <bag name="«fieldName; format="cc"»" table="«relationship.name»"«if(inverse)» inverse="true"«endif»«if(cascade)» cascade="«cascade»"«endif»«if(lazy)» lazy="«lazy»"«endif»>
-  <key column="«decorator.name»_id"/>
+  <key column="«decorator.name»_col_id"/>
 >>
 
 collection_map_rel(decorator, fieldName, fieldDecorator, relationship, inverse=false, cascade=false, lazy=false) ::= <<
 <map name="«fieldName; format="cc"»" table="«relationship.name»"«if(inverse)» inverse="true"«endif»«if(cascade)» cascade="«cascade»"«endif»«if(lazy)» lazy="«lazy»"«endif»>
-  <key column="«decorator.name»_id"/>
-  <map-key column="«fieldName»_key" «(hibernateTypeTemplateMap.(fieldDecorator.baseClassName))(fieldDecorator.keyType)»/>
+  <key column="«decorator.name»_col_id"/>
+  <map-key column="«fieldName»_map_key" «(hibernateTypeTemplateMap.(fieldDecorator.baseClassName))(fieldDecorator.keyType)»/>
 >>
 
 collection_set_rel_close() ::= <<
