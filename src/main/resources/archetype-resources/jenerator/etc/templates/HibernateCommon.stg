@@ -535,14 +535,14 @@ generate_relationship_one_to_many_uni_own(decorator, fieldName, fieldDecorator, 
 >>
 
 generate_relationship_many_to_one_bi_own(decorator, fieldName, fieldDecorator, relationship) ::= <<
-<many-to-one name="«fieldName; format="cc"»" column="«fieldName; format="cc"»_id" lazy="proxy" />
+<many-to-one name="«fieldName; format="cc"»" column="«fieldName; format="cc"»_col_id" lazy="proxy" />
 >>
 
 generate_relationship_many_to_one_bi_notown(decorator, fieldName, fieldDecorator, relationship) ::= <<
 >>
 
 generate_relationship_many_to_one_uni_own(decorator, fieldName, fieldDecorator, relationship) ::= <<
-<many-to-one name="«fieldName; format="cc"»" column="«fieldName; format="cc"»_id" lazy="false" cascade="all" />
+<many-to-one name="«fieldName; format="cc"»" column="«fieldName; format="cc"»_col_id" lazy="false" cascade="all" />
 >>
 
 generate_relationship_many_to_many_bi_own(decorator, fieldName, fieldDecorator, relationship) ::= <<
