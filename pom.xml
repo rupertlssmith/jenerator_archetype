@@ -4,7 +4,7 @@
 
     <groupId>com.thesett.archetype</groupId>
     <artifactId>dropwizard_archetype</artifactId>
-    <version>0.9.0-SNAPSHOT</version>
+    <version>0.9.140</version>
     <packaging>maven-archetype</packaging>
     <name>dropwizard-archetype</name>
     
