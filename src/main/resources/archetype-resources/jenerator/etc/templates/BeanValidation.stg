@@ -15,6 +15,22 @@ beanFieldsConstraintsTypeMap ::= [
 ]
 
 /*
+ * Renders a template iff a flag is set.
+ */
+is_set(flag, template) ::= <<
+«if(flag)»«\\»
+«template»«\\»
+«endif»
+>>
+
+is_not_set(flag, template) ::= <<
+«if(flag)»«\\»
+«else»«\\»
+«template»«\\»
+«endif»
+>>    
+    
+/*
  * Holds a mapping from kinds of enum field types to templates for generating their validation constraints.
  */
 enumFieldsConstraintsTypeMap ::= [
@@ -58,7 +74,7 @@ for_bean(catalogue, package, decorator, fields, extraFields) ::= <<
             
 bean_constraints(catalogue, decorator, name, fields, typeMap) ::= <<
 <bean class="«name; format="ccu"»" ignore-annotations="true">
-    «fields.keys:{it|«if(fields.(it).restricted)»«(typeMap.(fields.(it).kind))(it, fields.(it))»«else»«valid_field(name=it, decorator=fields.(it))»«endif»}; separator="\n"»
+    «fields.keys:{it|«if(fields.(it).restricted)»«(typeMap.(fields.(it).kind))(it, fields.(it), decorator.optionalProperties.(it))»«else»«valid_field(name=it, decorator=fields.(it), optional=decorator.optionalProperties.(it))»«endif»}; separator="\n"»
 </bean>
 
 
@@ -71,14 +87,15 @@ file_close() ::= <<
 </constraint-mappings>
 >>
 
-valid_field(name, decorator) ::= <<
+valid_field(name, decorator, optional) ::= <<
 <field name="«name; format="cc"»">
     «valid_constraint()»
+    «is_not_set(optional, not_null_constraint())»
 </field>
 >>
     
-basic_constraints(name, decorator) ::= <<
-«(basicFieldConstraintsTypeMap.(decorator.primitiveKind))(name, decorator)»
+basic_constraints(name, decorator, optional) ::= <<
+«(basicFieldConstraintsTypeMap.(decorator.primitiveKind))(name, decorator, optional)»
 >>
 
 /* Holds a mapping from constraint names on fields of components to templates to generate them. */
@@ -91,34 +108,42 @@ fieldConstraintsMap ::= [
     "Regex":"regex_constraint"
 ]
     
-enum_type_constraints(name, decorator) ::= <<
+enum_type_constraints(name, decorator, optional) ::= <<
 <field name="«name; format="cc"»">
     «decorator.restrictions:{it|«(fieldConstraintsMap.(it.name))(it)»}; separator="\n"»
+    «is_not_set(optional, not_null_constraint())»
 </field>    
 >>
 
-string_constraints(name, decorator) ::= <<
+string_constraints(name, decorator, optional) ::= <<
 <field name="«name; format="cc"»">
     «decorator.restrictions:{it|«(fieldConstraintsMap.(it.name))(it)»}; separator="\n"»
+    «is_not_set(optional, not_null_constraint())»
 </field>
 >>
 
-bigdecimal_constraints(name, decorator) ::= <<
+bigdecimal_constraints(name, decorator, optional) ::= <<
 <field name="«name; format="cc"»">
     «decorator.restrictions:{it|«(fieldConstraintsMap.(it.name))(it)»}; separator="\n"»
+    «is_not_set(optional, not_null_constraint())»
 </field>
 >>
 
-int_constraints(name, decorator) ::= <<
+int_constraints(name, decorator, optional) ::= <<
 <field name="«name; format="cc"»">
     «decorator.restrictions:{it|«(fieldConstraintsMap.(it.name))(it)»}; separator="\n"»
+    «is_not_set(optional, not_null_constraint())»
 </field>
 >>
         
 valid_constraint(restriction="") ::= <<
 <valid/>
 >>
-    
+
+not_null_constraint() :: <<
+<constraint annotation="javax.validation.constraints.NotNull"/>
+>>
+
 min_constraint(restriction) ::= <<
 <constraint annotation="javax.validation.constraints.Min">
     <element name="value">«restriction.min»</element>
@@ -154,9 +179,10 @@ enumConstraintsMap ::= [
     "ValidEnum":"enum_constraint"
 ]
     
-enum_constraints(name, decorator) ::= <<
+enum_constraints(name, decorator, optional) ::= <<
 <field name="«name; format="cc"»">
     «decorator.restrictions:{it|«(enumConstraintsMap.(it.name))(it)»}; separator="\n"»
+    «is_not_set(optional, not_null_constraint())»
 </field>    
 >>
     
