@@ -1,0 +1,66 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+function abs_path {
+  (cd "$(dirname '$1')" &>/dev/null && printf "%s/%s" "$PWD" "${1##*/}")
+}
+
+echo === DropWizard Archetype
+echo --- Fill in the values or accept the defaults with Return
+echo
+
+while [ -z "${response}" ] || [[ "$response" =~ [nN][oO]|[nN] ]];do   
+
+read -p "Output directory: ($PWD): " outDir
+eval outDir=$outDir    
+outDir=${outDir:-$PWD}
+
+read -p "groupdId (com.thesett): " groupId
+groupId=${groupId:-com.thesett}
+
+artifactId=
+while [ -z "${artifactId}" ];do
+read -p "artifactId: " artifactId
+done
+
+read -p "package ($groupId.$artifactId): " package
+package=${package:-$groupId.$artifactId}
+
+read -p "httpPort (8080): " httpPort
+httpPort=${httpPort:-8080}
+
+echo
+echo
+echo "Output directory: $outDir"
+echo "         groupId: $groupId"
+echo "      artifactId: $artifactId"
+echo "         package: $package"
+echo "        httpPort: $httpPort"
+
+echo
+
+read -r -p "Are these details correct (Y/n)?:" response
+response=${response:-y}
+done
+
+[ -d $outDir ] || mkdir -p $outDir
+
+# Unpack the maven wrapper script where it is needed.
+tar -zxf $DIR/maven_wrapper.tgz -C $outDir
+
+pushd $outDir
+
+./mvnw archetype:generate -DarchetypeCatalog=local -DarchetypeGroupId=uk.gov.ros.archetype -DarchetypeArtifactId=springboot-archetype -DgroupId=$groupId -DartifactId=$artifactId -Dpackage=$package -DhttpPort=$httpPort -DinteractiveMode=false -Dbasedir=$outDir
+
+# Maven archetype cannot do this - known deficiency.
+chmod +x $artifactId/run
+chmod +x $artifactId/refresh_db
+
+# Clean up the maven wrapper script.
+
+rm -fR $outDir/.mvn
+rm -f $outDir/mvnw
+rm -f $outDir/mvnw.cmd
+
+popd
