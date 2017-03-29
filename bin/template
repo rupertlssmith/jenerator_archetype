@@ -51,7 +51,7 @@ tar -zxf $DIR/maven_wrapper.tgz -C $outDir
 
 pushd $outDir
 
-./mvnw archetype:generate -DarchetypeCatalog=local -DarchetypeGroupId=uk.gov.ros.archetype -DarchetypeArtifactId=springboot-archetype -DgroupId=$groupId -DartifactId=$artifactId -Dpackage=$package -DhttpPort=$httpPort -DinteractiveMode=false -Dbasedir=$outDir
+./mvnw archetype:generate -DarchetypeCatalog=local -DarchetypeGroupId=com.thesett.archetype -DarchetypeArtifactId=dropwizard_archetype -DgroupId=$groupId -DartifactId=$artifactId -Dpackage=$package -DhttpPort=$httpPort -DinteractiveMode=false -Dbasedir=$outDir
 
 # Maven archetype cannot do this - known deficiency.
 chmod +x $artifactId/run
