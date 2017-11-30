@@ -18,6 +18,7 @@
                 <include>.gitignore</include>
                 <include>expand_func</include>
                 <include>Readme.md</include>
+                <include>init_db</include>
                 <include>refresh_db</include>
                 <include>jacoco_report</include>
                 <include>run</include>
