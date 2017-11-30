@@ -1,0 +1,7 @@
+#!/bin/bash
+
+psql -c "DROP DATABASE IF EXISTS ${rootArtifactId}db"
+psql -c "DROP USER IF EXISTS ${rootArtifactId}db"
+psql -c "CREATE USER ${rootArtifactId}db WITH PASSWORD '${rootArtifactId}db'"
+psql -c "CREATE DATABASE ${rootArtifactId}db"
+psql -c "GRANT ALL PRIVILEGES ON DATABASE ${rootArtifactId}db TO ${rootArtifactId}db"
